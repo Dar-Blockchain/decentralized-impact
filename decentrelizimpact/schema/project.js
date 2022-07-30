@@ -10,7 +10,7 @@ const projectSchema = new mongoose.Schema({
         required : true,
     },
     document : {
-        type: buffle,
+        type: Buffle,
     },
     description :{
         type: String,
