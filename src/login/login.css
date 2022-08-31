@@ -1,84 +1,103 @@
-.login {
-  width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@import url('https://rsms.me/inter/inter.css');
+.LoginContainer { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  .LoginContainer { font-family: 'Inter var', sans-serif; }
 }
-
-.loginWrapper {
-  width: 70%;
-  height: 70%;
+.LoginContainer {
   display: flex;
+  flex-direction: row;
+  background: #FFFAFA!important;
 }
-
-.loginLeft,
-.loginRight {
-  flex: 1;
+.MediaSecBg {
+  width: 50%;
+}
+.LoginInputContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.loginLogo {
-  font-size: 50px;
-  font-weight: 800;
-  color: #1775ee;
-  margin-bottom: 10px;
+.QuickLogin {
+  display: flex;
 }
 
-.loginDesc {
-  font-size: 24px;
+.QuickBtn {
+  width: 209px;
+  height: 61px;
+  border: 1px solid #BCBCBC;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.QuickBtn img {
+  width: 30px;
+  height: 30px;
+}
+.Line {
+  display: flex;
+  border-bottom: 3px solid grey;
+  justify-content: center;
 }
 
-.loginBox{
-    height: 300px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
+.Line h6 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #BCBCBC;
+  align-self: center;
+  background-color: #FFFAFA;
+  border-left: #FFFAFA 2px solid;
+  border-right: #FFFAFA 2px solid;
+  position: relative;
+  bottom: -9px;
+}
+
+#emailInput, #passwordInput {
+  box-sizing: border-box;
+  width: 364px;
+  height: 51px;
+  border: 1px solid #BCBCBC;
+  border-radius: 30px;
+  }
+  .passwordLabel {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
+  }
+  .passwordLabel p {
+
+    font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+    background-color: #FFFAFA;
+  color: #1093F3;
+  }
+
+
+.MediaSection {
+  background-color: #F1F4F5;
 }
 
-.loginInput{
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid gray;
-    font-size: 18px;
-    padding-left: 20px;
-}
+.LoginBtn {
+  width: 364px;
+  height: 61px;
+  color: white;
+  background: #1093F3;
+  border-radius: 30px;
+  font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 29px;
 
-.loginInput:focus{
-    outline: none;
-}
+/* identical to box height */
 
-.loginButton{
-    height: 50px;
-    border-radius: 10px;
-    border: none;
-    background-color: #1775ee;
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.loginForgot{
-    text-align: center;
-    color: #1775ee;
-}
-
-.loginRegisterButton{
-    width: 60%;
-    align-self: center;
-    height: 50px;
-    border-radius: 10px;
-    border: none;
-    background-color: #42b72a;
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
+color: #FFFFFF;
 }

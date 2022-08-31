@@ -8,6 +8,7 @@ import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Ka
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
+import Login from './login/Login';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -64,8 +65,11 @@ const App = () => {
               {themeSettings && (<ThemeSettings />)}
 
               <Routes>
+                {/* Profile testing*/}
+                <Route path="/login" element={(<Login />)} />
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />
+
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
 
                 {/* pages  */}
