@@ -5,7 +5,9 @@ const SignUp = () => {
       axios.post('http://localhost:5000/')
     }
   return (
-    <div>SignUp</div>
+    <div className='SignUpcontainer'>
+      
+    </div>
   )
 }
 

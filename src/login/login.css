@@ -6,7 +6,8 @@
 .LoginContainer {
   display: flex;
   flex-direction: row;
-  background: #FFFAFA!important;
+  /* background: #FFFAFA!important; */
+  background-color: white;
 }
 .MediaSecBg {
   width: 50%;
@@ -14,10 +15,22 @@
 .LoginInputContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+.InputSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.inputFiledLabel {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 .QuickLogin {
@@ -100,4 +113,8 @@ line-height: 29px;
 /* identical to box height */
 
 color: #FFFFFF;
+}
+
+.Logo {
+  align-self: baseline;
 }
