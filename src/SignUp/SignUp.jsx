@@ -1,14 +1,103 @@
-import React from 'react'
-import axios from 'axios'
-const SignUp = () => {
-    const signUptesting = () => {
-      axios.post('http://localhost:5000/')
+import React from 'react';
+import './SignUp.css'
+import { useState } from 'react';
+import axios from 'axios';
+import validator from 'validator'
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+function SignUp(){
+
+    let Navigate = useNavigate();
+    const [inputState, setInput] = useState({input: {email: '', username: '', password: '', password_2: ''}})
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
+    
+    function setEmail(event){
+        setInput({...inputState, input:{email: event.target.value, password: inputState.input.password, password_2: inputState.input.password_2, username: inputState.input.username}})
     }
-  return (
-    <div className='SignUpcontainer'>
-      
+
+    function setpassword(event){
+        setInput({...inputState, input:{email: inputState.input.email ,password: event.target.value, password_2: event.target.value, username: inputState.input.username}})
+    }
+     
+    function setUserName(event){
+        // check if username is valid
+        if (validator.isAlphanumeric(event.target.value)){
+            setInput({...inputState, input:{email: inputState.input.email, password: inputState.input.password, password_2: inputState.input.password_2, username: event.target.value}})
+        }
+        else{
+            setError('Username must be alphanumeric')
+        }
+        }
+
+    function handleSubmit() {
+        if (!(validator.isEmail(inputState.input.email))){
+            setError("Email is not valid")
+            return
+        }
+        else if (inputState.input.password.length < 8){
+            setError("Password must be at least 8 characters")
+            return
+        }
+        else if (inputState.input.password !== inputState.input.password_2){
+            setError("Passwords do not match")
+        }
+        else if (inputState.input.username.length < 3){
+            setError("Username must be at least 3 characters")
+            return
+        }
+        else{
+            axios.post('https://blossoom-api.herokuapp.com/api/v1/auth/register/', inputState.input)
+            .then(res => {
+
+                if (res.statusText === "Created"){
+                    Navigate('/login')
+                }
+                else{
+                    setError(res.data.error)
+                }
+            })
+            .catch(err => {
+                
+                    setError('Uese already exists')
+                    console.log(JSON.stringify(err.response.data))
+                
+
+            })
+            return
+        }
+    }
+
+return (
+    
+    <div fluid className='d-flex justify-content-center my-3 login-container'>    
+    <div>
+                <div className="col-md-12 login-form-1">
+                            <h3>Sign Up</h3>
+     
+                            {error && (<h4 className='text-center text-danger'>{error}</h4>)}
+
+                            <form>
+                                <div className="form-group my-2">
+                                    <input type="text" className="form-control" placeholder="Your Username *"  onChange={setUserName} value={inputState.input.username} />
+                                </div>
+                                <div className="form-group my-2">
+                                    <input type="text" className="form-control" placeholder="Your Email *" onChange={setEmail} value={inputState.input.email} />
+                                </div>
+                                <div className="form-group my-2">
+                                    <input type="password" className="form-control" placeholder="Your Password *" value={inputState.input.password} onChange={setpassword}/>
+                                    <input type="password" className="form-control" placeholder="Confirm Your Password *"/>
+                                </div>
+                                <input type="button" className="btnSubmit my-3 mx-auto" onClick={handleSubmit} value="Submit"/>
+                            </form>
+                </div>
+        </div>
+    
     </div>
-  )
+ );
+
 }
+
 
 export default SignUp

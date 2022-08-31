@@ -9,6 +9,7 @@ import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
 import Login from './login/Login';
+import SignUp from './SignUp/SignUp';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -66,6 +67,8 @@ const App = () => {
 
               <Routes>
                 {/* Profile testing*/}
+                <Route path="/signup" element={(<SignUp />)} />
+
                 <Route path="/login" element={(<Login />)} />
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />
