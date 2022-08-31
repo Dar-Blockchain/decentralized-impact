@@ -48,22 +48,12 @@ function SignUp(){
             return
         }
         else{
-            axios.post('localhost:3000/api/signup', inputState.input)
+            axios.post('http://localhost:3000/api/signup', inputState.input)
             .then(res => {
-
-                if (res.statusText === "Created"){
-                    Navigate('/login')
-                }
-                else{
-                    setError(res.data.error)
-                }
+                console.log(res)
             })
             .catch(err => {
-                
-                    setError('Uese already exists')
-                    console.log(JSON.stringify(err.response.data))
-                
-
+                    console.log(err)
             })
             return
         }
