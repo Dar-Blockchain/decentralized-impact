@@ -28,9 +28,10 @@ const Login = () => {
   }
   else {
     axios.post('http://localhost:5000/api/signin', {
-      email: document.querySelector,
-      password: '',
+      email: inputState.input.email,
+      password: inputState.input.password,
     }).then((res) => {
+      console.log(res)
       localStorage.setItem('Token', res.token)
       localStorage.setItem('UserData', res.user)
     }).catch((err) => {
