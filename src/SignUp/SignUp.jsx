@@ -8,29 +8,43 @@ import { useNavigate } from 'react-router';
 function SignUp(){
 
     let Navigate = useNavigate();
-    const [inputState, setInput] = useState({input: {email: '', username: '', password: '', password_2: ''}})
+    const [inputState, setInput] = useState({input: {firstName: '', lastName: '', email: '', password: '', password_2: ''}})
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     
     function setEmail(event){
-        setInput({...inputState, input:{email: event.target.value, password: inputState.input.password, password_2: inputState.input.password_2, username: inputState.input.username}})
+        setInput({...inputState, input:{lastName: inputState.input.lastName, firstName: inputState.input.firstName, email: event.target.value, password: inputState.input.password, password_2: inputState.input.password_2}})
     }
 
     function setpassword(event){
-        setInput({...inputState, input:{email: inputState.input.email ,password: event.target.value, password_2: event.target.value, username: inputState.input.username}})
+        setInput({...inputState, input:{lastName: inputState.input.lastName, firstName: inputState.input.firstName, email: inputState.input.email ,password: event.target.value, password_2: event.target.value}})
     }
-     
-    function setUserName(event){
-        // check if username is valid
-        if (validator.isAlphanumeric(event.target.value)){
-            setInput({...inputState, input:{email: inputState.input.email, password: inputState.input.password, password_2: inputState.input.password_2, username: event.target.value}})
-        }
-        else{
-            setError('Username must be alphanumeric')
-        }
-        }
 
+    
+
+    function setFirstName(event){
+      console.log(event.target.value)
+      // check if username is valid
+      if (validator.isAlphanumeric(event.target.value)){
+          setInput({...inputState, input:{email: inputState.input.email, password: inputState.input.password, password_2: inputState.input.password_2, firstName: event.target.value, lastName: inputState.input.lastName}})
+      }
+      else{
+          setError('Username must be alphanumeric')
+      }  
+    }
+
+    function setLastName(event){
+      // check if username is valid
+      if (validator.isAlphanumeric(event.target.value)){
+          setInput({...inputState, input:{email: inputState.input.email, password: inputState.input.password, password_2: inputState.input.password_2,  firstName: inputState.input.firstName, lastName: event.target.value}})
+      }
+      else{
+          setError('Username must be alphanumeric')
+      }  
+    }
+      
+     
     function handleSubmit() {
         if (!(validator.isEmail(inputState.input.email))){
             setError("Email is not valid")
@@ -43,14 +57,20 @@ function SignUp(){
         else if (inputState.input.password !== inputState.input.password_2){
             setError("Passwords do not match")
         }
-        else if (inputState.input.username.length < 3){
-            setError("Username must be at least 3 characters")
-            return
-        }
+
         else{
-            axios.post('http://localhost:3000/api/signup', inputState.input)
+          console.log(inputState.input.firstName)
+          console.log(inputState.input.lastName)
+
+            axios.post('http://localhost:3000/api/signup', {
+              firstName: inputState.input.firstName,
+              lastName: inputState.input.lastName,
+              email: inputState.input.email, 
+              password: inputState.input.password
+            })
             .then(res => {
                 console.log(res)
+                console.log('hola')
             })
             .catch(err => {
                     console.log(err)
@@ -69,10 +89,14 @@ return (
                             {error && (<h4 className='text-center text-danger'>{error}</h4>)}
 
                             <form>
-                                <div className="form-group my-2">
-                                    <input type="text" className="form-control" placeholder="Your Username *"  onChange={setUserName} value={inputState.input.username} />
-                                </div>
-                                <div className="form-group my-2">
+                            {/* firstName & lastName */}
+                            <div className="form-group my-2">
+                              <input type="text" className="form-control" placeholder="Your firstname"  onChange={setFirstName} value={inputState.input.firstName} />
+                            </div>
+                          <div className="form-group my-2">
+                            <input type="text" className="form-control" placeholder="Your lastname"  onChange={setLastName} value={inputState.input.lastName} />
+                          </div>
+                            <div className="form-group my-2">
                                     <input type="text" className="form-control" placeholder="Your Email *" onChange={setEmail} value={inputState.input.email} />
                                 </div>
                                 <div className="form-group my-2">
