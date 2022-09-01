@@ -1,0 +1,34 @@
+.signupInnerContainer {
+ display: flex;   
+}
+
+.signupContainer input{
+
+border: 1px solid #BCBCBC;
+border-radius: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.btnSubmit {
+    width: 264px;
+    height: 41px;
+    background: #1093F3;
+    border-radius: 30px;
+    align-self: center;
+}
+
+
+.mediaContainer {
+    background: #F1F4F5;
+}
+
+.signupContainer {
+    display: flex;
+    justify-content: space-between;
+}

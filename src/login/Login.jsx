@@ -3,6 +3,7 @@ import React from 'react'
 import './login.css'
 import { useState } from 'react'
 import validator from 'validator';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -69,7 +70,7 @@ const Login = () => {
           </div>
             <button className='LoginBtn' onClick={testLogin}>Login</button>
           </div>
-          <p>Already have an account? <button>Sign Up</button></p>
+          <p>Already have an account? <Link to={"/signup"}>Sign Up</Link></p>
       </div>
 
       <div className='MediaSection'>

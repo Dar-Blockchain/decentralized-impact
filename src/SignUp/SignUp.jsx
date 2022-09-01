@@ -5,6 +5,7 @@ import axios from 'axios';
 import validator from 'validator'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import './SignUp.css'
 function SignUp(){
 
     let Navigate = useNavigate();
@@ -76,28 +77,56 @@ function SignUp(){
         }
     }
 
+
+
+
 return (
-    
-    <div fluid className='d-flex justify-content-center my-3 login-container'>    
+    <div className='signupContainer'>
+    <div fluid className='signupInnerContainer d-flex justify-content-center my-3 login-container'>    
     <div>
+                <img id='logoSignup' srcSet={'/Assets/Logo.svg'}/>
                 <div className="col-md-12 login-form-1">
                             <h3>Sign Up</h3>
-     
                             {error && (<h4 className='text-center text-danger'>{error}</h4>)}
 
                             <form>
                             {/* firstName & lastName */}
                             <div className="form-group my-2">
-                              <input type="text" className="form-control" placeholder="Your firstname"  onChange={setFirstName} value={inputState.input.firstName} />
-                            </div>
+                                <label>First Name</label>
+                                    <input type="text" className="form-control" placeholder="Your firstname"  onChange={setFirstName} value={inputState.input.firstName} />
+                              
+                              </div>
                           <div className="form-group my-2">
-                            <input type="text" className="form-control" placeholder="Your lastname"  onChange={setLastName} value={inputState.input.lastName} />
+                            <label>Last Name</label>  
+                          <input type="text" className="form-control" placeholder="Your lastname"  onChange={setLastName} value={inputState.input.lastName} />
                           </div>
                             <div className="form-group my-2">
-                                    <input type="text" className="form-control" placeholder="Your Email *" onChange={setEmail} value={inputState.input.email} />
+                                <label>Email Address</label>        
+                            <input type="text" className="form-control" placeholder="Your Email *" onChange={setEmail} value={inputState.input.email} />
                                 </div>
                                 <div className="form-group my-2">
-                                    <input type="password" className="form-control" placeholder="Your Password *" value={inputState.input.password} onChange={setpassword}/>
+                                    <label>Phone Number (optional)</label>        
+                                    <input type="number" className="form-control" placeholder="Your Phone Number" />
+                                </div>
+                                <div className="form-group my-2">
+                                    <label>LinkedIn/ Personal Website link /GitHub link:</label>        
+                                    <input type="" className="form-control" placeholder="" />
+                                </div>
+                                <div className="form-group my-2">
+                                    <label>Company</label>        
+                                    <input type="" className="form-control" placeholder="" />
+                                </div>
+                                <div className="form-group my-2">
+                                    <label>Current Position</label>        
+                                    <input type="" className="form-control" placeholder="" />
+                                </div>
+                                <div className="form-group my-2">
+                                    <label>Blockchain Knowledge level? (Basic, Medium, High, Expertise)</label>        
+                                    <input type="" className="form-control" placeholder="" />
+                                </div>
+                                <div className="form-group my-2">
+                                <label>Password</label>    
+                                <input type="password" className="form-control" placeholder="Your Password *" value={inputState.input.password} onChange={setpassword}/>
                                     <input type="password" className="form-control" placeholder="Confirm Your Password *"/>
                                 </div>
                                 <input type="button" className="btnSubmit my-3 mx-auto" onClick={handleSubmit} value="Submit"/>
@@ -105,6 +134,10 @@ return (
                 </div>
         </div>
     
+    </div>
+    <div className='mediaContainer'>
+        <img srcSet='/Assets/Rectangle.svg' />
+    </div>
     </div>
  );
 
