@@ -27,6 +27,7 @@ const Login = () => {
       return
   }
   else {
+    
     axios.post('http://localhost:5000/api/signin', {
       email: inputState.input.email,
       password: inputState.input.password,
@@ -34,6 +35,8 @@ const Login = () => {
       console.log(res)
       localStorage.setItem('Token', res.token)
       localStorage.setItem('UserData', res.user)
+      localStorage.setItem('loginStatus', 'logged')
+      window.location.reload()
     }).catch((err) => {
       console.error(err)
     })

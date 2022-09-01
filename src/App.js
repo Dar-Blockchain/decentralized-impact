@@ -12,8 +12,15 @@ const App = () => {
   return (     
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={(<Dashboard />)} />
-      <Route path='/login' element={<Login />}  />
+      {
+        localStorage.getItem('loginStatus') !== null ? (
+          <Route path='/' element={(<Dashboard />)} />
+        ):(
+          <Route path='/' element={<Login />}  />
+        )
+      }
+      
+      
       <Route path='/signup' element={<SignUp />}  />
     </Routes>
     </BrowserRouter>
