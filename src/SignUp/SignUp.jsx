@@ -12,7 +12,7 @@ function SignUp(){
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
-    
+
     function setEmail(event){
         setInput({...inputState, input:{lastName: inputState.input.lastName, firstName: inputState.input.firstName, email: event.target.value, password: inputState.input.password, password_2: inputState.input.password_2}})
     }
@@ -20,9 +20,6 @@ function SignUp(){
     function setpassword(event){
         setInput({...inputState, input:{lastName: inputState.input.lastName, firstName: inputState.input.firstName, email: inputState.input.email ,password: event.target.value, password_2: event.target.value}})
     }
-
-    
-
     function setFirstName(event){
       console.log(event.target.value)
       // check if username is valid

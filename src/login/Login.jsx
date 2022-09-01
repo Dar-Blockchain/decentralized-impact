@@ -6,7 +6,6 @@ import validator from 'validator';
 
 const Login = () => {
 
-
   const [inputState, setInput] = useState({input: {email: '', password: ''}})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -70,7 +69,7 @@ const Login = () => {
           </div>
             <button className='LoginBtn' onClick={testLogin}>Login</button>
           </div>
-          <p>Already have an account? Sign Up</p>
+          <p>Already have an account? <button>Sign Up</button></p>
       </div>
 
       <div className='MediaSection'>
