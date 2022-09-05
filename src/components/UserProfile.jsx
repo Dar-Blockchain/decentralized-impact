@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
 import { Button } from "./Index";
 import { userProfileData } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import avatar from "../data/avatar.jpg";
+import {googleClientId} from '../config/googleClientId';
+import { GoogleLogout } from "react-google-login";
+import { gapi } from "gapi-script";
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();
 
+  useEffect(() => {
+    const initClient = () => {
+          gapi.client.init({
+          clientId: googleClientId,
+          scope: ''
+        });
+     };
+     gapi.load('client:auth2', initClient);  
+ });
+  const logOut = (res) =>{
+    console.log('success:', res);
+      localStorage.removeItem("Token");
+      localStorage.removeItem("UserData");
+      localStorage.removeItem("loginStatus",'logged');
+      window.location.reload()
+  }
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
@@ -67,13 +86,21 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <Button
+      <GoogleLogout 
+        clientId={googleClientId} 
+        onLogoutSuccess={logOut} 
+        onLogoutFailure={err => console.log(err)}
+        render={renderProps =>(
+          <Button
+          onClick={renderProps.onClick}
           color="white"
           bgColor={currentColor}
           text="Logout"
           borderRadius="10px"
           width="full"
         />
+        )}/>
+        
       </div>
     </div>
   );
