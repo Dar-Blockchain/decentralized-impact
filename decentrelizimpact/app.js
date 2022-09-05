@@ -9,6 +9,13 @@ var cookieParser = require("cookie-parser");
 const cors = require("cors");
 //require("dotenv").config();
 
+const port = process.env.PORT || 3000;
+//import route
+const userRoutes = require("./routes/user");
+const seanceRoutes = require("./routes/seance");
+const expertRoutes = require("./routes/expert");
+const projectRoute = require("./routes/project");
+
 const app = express();
 
 mongoose
@@ -17,9 +24,11 @@ mongoose
   )
   .then(() => {
     console.log("Database connected!");
-    app.listen(3000);
+    // Starting a server
+    app.listen(port, () => {
+      console.log(`App is running at ${port}`);
+    });
   })
-
   .catch((err) => console.log(err));
 //use parsing middelware
 // for cors origin config
@@ -38,20 +47,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(cookieParser());
 //app.use(cors());
-const port = process.env.PORT || 5000;
-//import route
-const userRoutes = require("./routes/user");
-const seanceRoutes = require("./routes/seance");
-const expertRoutes = require("./routes/expert");
-const projectRoute = require("./routes/project");
-
-//import routes
 
 app.use("/api", userRoutes),
   app.use("/seance", seanceRoutes),
   app.use("/expert", expertRoutes);
 app.use("/project", projectRoute);
-// Starting a server
-app.listen(port, () => {
-  console.log(`App is running at ${port}`);
-});
