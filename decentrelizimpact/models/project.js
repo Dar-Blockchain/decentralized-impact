@@ -9,8 +9,8 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  firstTeamMemberEmail: {
-    type: String,
+  teamMemberEmails: {
+    type: [String],
     required: true,
   },
   description: {
