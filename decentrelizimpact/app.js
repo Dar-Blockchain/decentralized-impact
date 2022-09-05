@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
-const User = require("./models/User");
-const seance = require("./models/seance");
-const expert = require("./models/expert");
 
 const express = require("express");
 const bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
-const cors = require("cors");
+
 //require("dotenv").config();
 
 const port = process.env.PORT || 3000;
@@ -30,7 +27,7 @@ mongoose
     });
   })
   .catch((err) => console.log(err));
-//use parsing middelware
+
 // for cors origin config
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -44,11 +41,11 @@ app.use((req, res, next) => {
   );
   next();
 });
+//use parsing middelware
 app.use(bodyParser.json());
 app.use(cookieParser());
-//app.use(cors());
 
-app.use("/api", userRoutes),
-  app.use("/seance", seanceRoutes),
-  app.use("/expert", expertRoutes);
+app.use("/api", userRoutes);
+app.use("/seance", seanceRoutes);
+app.use("/expert", expertRoutes);
 app.use("/project", projectRoute);
