@@ -1,0 +1,26 @@
+
+const nodemailer = require("nodemailer");
+module.exports=async(email,subject,text)=>{
+    try{
+        const transporter = nodemailer.createTransport({
+            type: "SMTP",
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'testini435@gmail.com',
+                pass: 'ba7bou7191'
+            }
+        });
+        await transporter.sendMail({
+            from: 'Dar Blockchain <noreply@darblockchain.io>',
+            to:email,
+            subject:subject,
+            text:text
+        });
+    }catch(error){
+        console.log("Email not sent");
+        console.log(error)
+
+    }
+}
