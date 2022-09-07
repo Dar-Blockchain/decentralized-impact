@@ -9,5 +9,7 @@ router.post("/signin", userController.signin);
 router.post("/profile");
 router.get("/signout", userController.signout);
 router.get("/", userController.getUsers);
+//router.post("/make/admin", userController.makeAdmin);
+router.post("/make/communityMember/:id", userController.makeCommunityMember);
 
 module.exports = router;

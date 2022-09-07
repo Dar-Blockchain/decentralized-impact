@@ -1,27 +1,30 @@
 const mongoose = require("mongoose");
-const options = { discriminatorKey: "itemtype" };
+const options = { discriminatorKey: "usertype" };
 const crypto = require("crypto");
 
-const UserSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    created_at: {
+      type: Date,
+      default: Date.now(),
+    },
+    hash: String,
+    salt: String,
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  created_at: {
-    type: Date,
-    default: Date.now(),
-  },
-  hash: String,
-  salt: String,
-});
+  options
+);
 
 UserSchema.methods.setPassword = function (password) {
   // Creating a unique salt for a particular user

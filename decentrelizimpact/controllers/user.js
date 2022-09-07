@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const community = require("../models/community");
 const bcrypt = require("bcryptjs");
 //const { user } = require("../routes/user")
 var jwt = require("jsonwebtoken");
@@ -66,5 +67,30 @@ exports.getUsers = (req, res) => {
     })
     .catch((error) => {
       res.satus(400).json({ error });
+    });
+};
+
+/*exports.makeAdmin = (req, res) => {
+  User.find({})
+    .then((users) => {
+      res.status(200).json({ users });
+    })
+    .catch((error) => {
+      res.satus(400).json({ error });
+    });
+};*/
+
+exports.makeCommunityMember = (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { userType: "Community", wallet: "0x01" } },
+    { new: true, upsert: false }
+  )
+    .then((user) => {
+      res.status(200).json({ user });
+      console.log(user.userType);
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
     });
 };

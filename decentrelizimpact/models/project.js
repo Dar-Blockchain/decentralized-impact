@@ -21,6 +21,9 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  descriptionFileUrl: {
+    type: String,
+  },
   isConfirmed: {
     type: Boolean,
     default: false,

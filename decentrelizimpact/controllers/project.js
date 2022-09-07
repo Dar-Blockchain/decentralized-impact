@@ -22,6 +22,7 @@ const avatar  = multer({
         cb(undefined,true)
     }
 });*/
+
 exports.getAllProjects = (req, res) => {
   Project.find({}).then((project) => {
     if (!project) {
@@ -30,10 +31,7 @@ exports.getAllProjects = (req, res) => {
         value: project,
       });
     } else {
-      res.status(200).send({
-        message: "Project found",
-        value: project,
-      });
+      res.status(200).json({ project });
     }
   });
 };
@@ -98,5 +96,35 @@ exports.update = (req, res) => {
 exports.deleted = (req, res) => {
   Project.findByIdAndDelete({ _id: req.params.id })
     .then(() => res.status(200).json({ message: "project deleted " }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+// Approve project
+// TODO send an email to the user that says that his project has been confirmed
+exports.approveProject = (req, res) => {
+  Project.findOneAndUpdate({ _id: req.params.id }, { isConfirmed: true })
+    .then(() => res.status(200).json({ message: "Project approved" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+// Decline project
+// TODO send an email to the user that says that his project has been declined
+exports.declineProject = (req, res) => {
+  Project.findOneAndDelete({ _id: req.params.id })
+    .then(() =>
+      res.status(200).json({ message: "Project declined and deleted" })
+    )
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getAllUnconfirmedProjects = (req, res) => {
+  Project.find({ isConfirmed: false })
+    .then((projects) => res.status(200).json({ projects }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getAllConfirmedProjects = (req, res) => {
+  Project.find({ isConfirmed: true })
+    .then((projects) => res.status(200).json({ projects }))
     .catch((error) => res.status(400).json({ error }));
 };
