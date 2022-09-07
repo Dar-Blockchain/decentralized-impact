@@ -60,7 +60,7 @@ function SignUp(){
           console.log(inputState.input.firstName)
           console.log(inputState.input.lastName)
 
-            axios.post('http://localhost:3000/api/signup', {
+            axios.post('https://decentralized-impact.alwaysdata.net/api/signup', {
               firstName: inputState.input.firstName,
               lastName: inputState.input.lastName,
               email: inputState.input.email, 
