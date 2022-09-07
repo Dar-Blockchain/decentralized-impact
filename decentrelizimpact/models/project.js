@@ -21,6 +21,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isConfirmed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Project", projectSchema);

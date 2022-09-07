@@ -7,11 +7,13 @@ var cookieParser = require("cookie-parser");
 //require("dotenv").config();
 
 const port = process.env.PORT || 3000;
+
 //import route
 const userRoutes = require("./routes/user");
 const seanceRoutes = require("./routes/seance");
 const expertRoutes = require("./routes/expert");
 const projectRoute = require("./routes/project");
+const adminRoutes = require("./routes/admin");
 
 const app = express();
 
@@ -22,7 +24,7 @@ mongoose
   .then(() => {
     console.log("Database connected!");
     // Starting a server
-    app.listen(port, () => {
+    app.listen(port, process.env.ALWAYSDATA_HTTP_ID, () => {
       console.log(`App is running at ${port}`);
     });
   })
@@ -49,3 +51,4 @@ app.use("/api", userRoutes);
 app.use("/seance", seanceRoutes);
 app.use("/expert", expertRoutes);
 app.use("/project", projectRoute);
+app.use("/admin", adminRoutes);

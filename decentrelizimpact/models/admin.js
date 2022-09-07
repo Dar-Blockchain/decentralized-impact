@@ -1,17 +1,27 @@
-const mongoose = require("mongoose")
-
+const mongoose = require("mongoose");
+var crypto = require("crypto");
+const user = require("./User");
 const AdminSchema = new mongoose.Schema({
-  
-    wallet: {
-        type: String,
-        required: true,
-    },
+  walletPubKey: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  walletHash: String,
 
-    role: {
-        type: String,
-        required: true,
-    }
-})
-var Admin = User.discriminator("Admin",AdminSchema);
+  walletSalt: String,
+});
 
-module.exports = Admin = mongoose.model("admin", AdminSchema);
+var Admin = user.discriminator("Admin", AdminSchema);
+
+if (mongoose.models.Admin) {
+  Admin = mongoose.model("Admin");
+} else {
+  Admin = mongoose.model("Admin", AdminSchema);
+}
+
+module.exports = Admin;

@@ -6,6 +6,7 @@ var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 
 exports.signup = (req, res) => {
+  console.log("Ejaaw");
   let newUser = new User();
 
   // Initialize newUser object with request data
@@ -14,6 +15,7 @@ exports.signup = (req, res) => {
     (newUser.email = req.body.email),
     (newUser.password = req.body.password);
 
+  console.log(newUser);
   // Call setPassword function to hash password
   newUser.setPassword(req.body.password);
 
