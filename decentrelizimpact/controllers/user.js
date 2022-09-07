@@ -5,24 +5,20 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 
+//---------------------signUp-------------------------------//
 exports.signup = (req, res) => {
-  console.log("Ejaaw");
-  let newUser = new User();
-
   // Initialize newUser object with request data
-  (newUser.firstName = req.body.firstName),
-    (newUser.lastName = req.body.lastName),
-    (newUser.email = req.body.email),
-    (newUser.password = req.body.password);
+  let newUser = new User({
+    ...req.body,
+  });
 
-  console.log(newUser);
   // Call setPassword function to hash password
   newUser.setPassword(req.body.password);
 
   newUser.save((err, newUser) => {
     if (err) {
       return res.status(400).json({
-        error: "unable to add user",
+        error: err.message,
       });
     }
     return res.json({
@@ -61,4 +57,14 @@ exports.signout = (req, res) => {
   return res.json({
     message: "user signout",
   });
+};
+
+exports.getUsers = (req, res) => {
+  User.find({})
+    .then((users) => {
+      res.status(200).json({ users });
+    })
+    .catch((error) => {
+      res.satus(400).json({ error });
+    });
 };

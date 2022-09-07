@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const options = { discriminatorKey: "itemtype" };
 const crypto = require("crypto");
+
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
