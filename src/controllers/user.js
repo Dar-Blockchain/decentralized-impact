@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const community = require("../models/community");
 const bcrypt = require("bcryptjs");
-//const { user } = require("../routes/user")
+//const { user } = require("./src/routes/user")
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const { body } = require("express-validator");

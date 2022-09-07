@@ -9,11 +9,11 @@ var cookieParser = require("cookie-parser");
 const port = process.env.PORT || 3000;
 
 //import route
-const userRoutes = require("./routes/user");
-const seanceRoutes = require("./routes/seance");
-const expertRoutes = require("./routes/expert");
-const projectRoute = require("./routes/project");
-const adminRoutes = require("./routes/admin");
+const userRoutes = require("./src/routes/user");
+const seanceRoutes = require("./src/routes/seance");
+const expertRoutes = require("./src/routes/expert");
+const projectRoute = require("./src/routes/project");
+const adminRoutes = require("./src/routes/admin");
 
 const app = express();
 
