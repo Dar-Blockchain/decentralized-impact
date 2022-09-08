@@ -22,6 +22,11 @@ const expertSchema = new mongoose.Schema({
   },
 });
 
-//var Expert = User.discriminator("Expert", expertSchema);
+var Expert = User.discriminator("Expert", expertSchema);
 
-module.exports = Expert = mongoose.model("Expert", expertSchema);
+if (mongoose.models.Expert) {
+  Expert = mongoose.model("Expert");
+} else {
+  Expert = mongoose.model("Expert", expertSchema);
+}
+

@@ -70,15 +70,18 @@ exports.getUsers = (req, res) => {
     });
 };
 
-/*exports.makeAdmin = (req, res) => {
-  User.find({})
+exports.makeAdmin = (req, res) => {
+  User.findOneAndUpdate(    
+    { _id: req.params.id },
+    { $set: { userType: "Admin", wallet: "0x0001" } },
+    { new: true, upsert: false })
     .then((users) => {
-      res.status(200).json({ users });
+      res.status(200).json({ users , message: "changed !"});
     })
     .catch((error) => {
       res.satus(400).json({ error });
     });
-};*/
+};
 
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
@@ -94,3 +97,5 @@ exports.makeCommunityMember = (req, res) => {
       res.status(400).json({ error });
     });
 };
+
+// 6313aab62754f7fdf6e84bbe
