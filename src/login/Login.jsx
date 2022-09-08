@@ -16,6 +16,26 @@ const Login = () => {
   }
 
 
+//   {
+//     "message": "Project found",
+//     "value": [
+//         {
+//             "_id": "63186d8332c934a809eaa506",
+//             "title": "Friends",
+//             "category": "finance",
+//             "teamMemberEmails": [
+//                 "adam@gmail.com",
+//                 "youssef@gmail.com"
+//             ],
+//             "description": "hi world",
+//             "state": "incubation",
+//             "descriptionFileUrl": "An Url",
+//             "isConfirmed": false,
+//             "__v": 0
+//         }
+//     ]
+// }
+
   function setPassword(event){
   setInput({...inputState, input:{email: inputState.input.email ,password: event.target.value}})
   }
@@ -36,12 +56,13 @@ const Login = () => {
       localStorage.setItem('Token', res.token)
       localStorage.setItem('UserData', res.user)
       localStorage.setItem('loginStatus', 'logged')
+      localStorage.setItem('userType', 'Admin')
+      // Admin Project confirmation, user can access confirmed projects 
       window.location.reload()
     }).catch((err) => {
       console.error(err)
     })
   }
-
   }
 
 

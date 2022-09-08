@@ -66,6 +66,7 @@ const Dashboard = () => {
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
                 {/* pages  */}
                 <Route path="/addproject" element={(<CreateProject />)} />
+                <Route path='' element='' />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
@@ -84,6 +85,7 @@ const Dashboard = () => {
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
                 <Route path="/stacked" element={<Stacked />} />
+
             </Routes>
             </div>
             <Footer />
