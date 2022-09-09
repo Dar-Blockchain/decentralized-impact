@@ -4,8 +4,8 @@ const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema(
   {
-    wallet :{
-      type:String,
+    wallet: {
+      type: String,
     },
     firstName: {
       type: String,
@@ -19,12 +19,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userType:{
-      type:String,
+    userType: {
+      type: String,
     },
     created_at: {
       type: Date,
       default: Date.now(),
+    },
+    verified: {
+      type: Boolean,
+      default: false,
     },
     hash: String,
     salt: String,
