@@ -9,7 +9,7 @@ module.exports=async(email,subject,text)=>{
             secure: true,
             auth: {
                 user: 'testini435@gmail.com',
-                pass: 'ba7bou7191'
+                pass: 'zinehprkliupnwuk'
             }
         });
         await transporter.sendMail({
