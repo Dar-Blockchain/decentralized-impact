@@ -19,6 +19,12 @@ const Projects = () => {
     
 }, [projects])
 
+
+  const projectClickHnadler = (e) => {
+    console.log(e)
+    
+  } 
+
   //title category, number members, state, clickable link
   return (
     <div class="container mx-auto px-4 sm:px-8">
@@ -62,7 +68,8 @@ const Projects = () => {
               {
                 loading ? ('loading'):projects.map((project, index) => {
                   return(
-                    <tr>
+                    <tr name={project._id} onClick={projectClickHnadler}>
+                    
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div class="flex">
     
