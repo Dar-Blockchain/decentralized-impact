@@ -138,7 +138,7 @@ const onFailure = (err) => {
             {({linkedInLogin}) =>(
               <button onClick={linkedInLogin} className='py-3 px-6 rounded-xl bg-gray-900 transition hover:bg-gray-800 active:bg-gray-600 focus:bg-gray-700'>
               <div className='flex gap-4 items-center justify-center text-white'>
-                  <img srcSet='/Assets/linkedin-svgrepo.svg' className='w-5' />
+                  <img srcSet='/Assets/linkedin-icon.svg' className='w-5' />
                   <span className='block w-max font-medium tracking-wide text-sm text-white'>with Linkedin</span>
               </div>
           </button>
