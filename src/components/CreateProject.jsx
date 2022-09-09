@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const CreateProject = () => {
     const [Project ,setProject] = useState({
         title: "",
-        category: "",
+        category: "blockchain",
         firstTeamMemberEmail: ["hello"],
         description: "",
         state: ""
@@ -73,18 +73,42 @@ const CreateProject = () => {
             console.log(res)
         }).catch((err) => {console.error(err)})
     }
-  return (
-    <div className='addProjectContainer' >
+    return (
+    <form>
+
         <h1>Create Project</h1>
-        <input onChange={handleTitleInputChange} name='title' value={Project.title} type={"text"} placeholder='Project Name'  />
-        <input onChange={handleCategoryInputChange} name='category' value={Project.category} type={"text"} placeholder='Project type' />
-        <input onChange={handleDescriptionInputChange} name='description' value={Project.description}  type={"text"} placeholder='description' />
-        {/* onChange={handleTeamMemberInputChange} value={Project.firstTeamMemberEmail}  */}
-        <input  name='firstTeamMemberEmail'  type={'email'} placeholder="team member's email "/>
-        <input onChange={handleStateInputChange} name='state'  value={Project.state}  type={"text"} placeholder='Location/State' />
-        <button onClick={submit}>submit</button>
+            <div class="mb-6">
+              <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Project title</label>
+              <input onChange={handleTitleInputChange} name='title' id='title' value={Project.title} type={"text"} placeholder='Project Name' class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+            </div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select Project category</label>
+
+            
+            <fieldset>
+
+
+        <div class="flex items-center mb-4">
+            <input id="checkbox-2" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+            <label for="checkbox-2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">blockchain</label>
         </div>
-  )
+
+        <div class="flex items-center mb-4">
+            <input id="checkbox-3" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+            <label for="checkbox-3" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">blockchain</label>
+        </div>
+
+
+
+
+        </fieldset>
+
+
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"></label>
+            <textarea onChange={handleDescriptionInputChange} id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Project description"></textarea>
+
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={submit}>Submit Project</button>
+    </form>
+      )
 }
 
 export default CreateProject
