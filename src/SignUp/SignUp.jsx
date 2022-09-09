@@ -69,6 +69,7 @@ function SignUp(){
             .then(res => {
                 console.log(res)
                 console.log('hola')
+                window.location.replace('/')
             })
             .catch(err => {
                     console.log(err)

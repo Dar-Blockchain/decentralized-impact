@@ -19,24 +19,7 @@ const Orders = () => {
     }
     
 }, [projects])
-            // {
-            // "value": [
-            //     {
-            //         "_id": "63186d8332c934a809eaa506",
-            //         "title": "Friends",
-            //         "category": "finance",
-            //         "teamMemberEmails": [
-            //             "adam@gmail.com",
-            //             "youssef@gmail.com"
-            //         ],
-            //         "description": "hi world",
-            //         "state": "incubation",
-            //         "descriptionFileUrl": "An Url",
-            //         "isConfirmed": false,
-            //         "__v": 0
-            //     }
-            // ]
-            // }
+
   
   return (
 
