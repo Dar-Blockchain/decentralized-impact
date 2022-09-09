@@ -8,6 +8,8 @@ var expressJwt = require('express-jwt');
 const { body } = require("express-validator");
 const Token = require("../models/Token");
 const sendEmail = require("../controllers/sendEmail");
+const { url } = require("inspector");
+const urll = 'http://localhost:5000/api'
 
 
 /*exports.signup =(req,res)=>{
@@ -48,9 +50,9 @@ exports.signup = async(req,res)=>{
 			userId: user._id,
 			token: crypto.randomBytes(32).toString("hex"),
 		}).save();
-		const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
-		await sendEmail(User.email, "Verify Email", url);
-
+		const url = `${urll}/${user._id}/verify/${token.token}`;
+		await sendEmail(user.email, "Verify Email", url);
+    console.log()
 		res
 			.status(201)
 			.send({ message: "An Email sent to your account please verify" });
@@ -62,23 +64,29 @@ exports.signup = async(req,res)=>{
 //---------------------signin-------------------------------//
 //----------------------verify-------------------------------//
 exports.Token = async(req,res)=>{
-  try {
-		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });
+    // Find a matching token
+    Token.findOne({ token: req.params.token }, function (err, token) {
+      if (!token) return res.status(400).send({
+          type: 'not-verified',
+          msg: `We were unable to find a valid token.Your token my have expired.`
+      });
 
-		const token = await Token.findOne({
-			userId: user._id,
-			token: req.params.token,
-		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });
+      // If we found a token, find a matching user
+      User.findOne({ _id: token.userId }, function (err, user) {
+          if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+          if (user.verified) return res.status(400).send({
+              type: 'already-verified',
+              msg: 'This user has already been verified.'
+          });
 
-		await User.updateOne({ _id: user._id, verified: true });
-		await token.remove();
-
-		res.status(200).send({ message: "Email verified successfully" });
-	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
-	}
+          // Verify and save the user
+          user.verified = true;
+          user.save(function (err) {
+              if (err) { return res.status(500).send({ msg: err.message }); }
+              res.status(200).send("The account has been verified. Please login.");
+          });
+      });
+  });
 }
 //---------------------signin-------------------------------//
 exports.signin = (req , res )=>{

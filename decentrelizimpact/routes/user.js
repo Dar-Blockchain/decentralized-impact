@@ -10,7 +10,7 @@ router.post('/signup',[
 router.post('/signin', signin)
 router.post('/profile')
 router.get('/signout',signout)
-router.get("/:id/verify/:token/",Token)
+router.get('/:id/verify/:token',Token)
 
  
 
