@@ -3,9 +3,9 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { useStateContext } from './contexts/ContextProvider';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components/Index';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
+import CreateProject from './components/CreateProject';
 
 
 const Dashboard = () => {
@@ -63,20 +63,18 @@ const Dashboard = () => {
                 {/* Profile testing*/}
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />
-
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
-
                 {/* pages  */}
+                <Route path="/addproject" element={(<CreateProject />)} />
+                <Route path='' element='' />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
-
                 {/* apps  */}
                 <Route path="/kanban" element={<Kanban />} />
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/color-picker" element={<ColorPicker />} />
-
                 {/* charts  */}
                 <Route path="/line" element={<Line />} />
                 <Route path="/area" element={<Area />} />
@@ -85,6 +83,7 @@ const Dashboard = () => {
                 <Route path="/financial" element={<Financial />} />
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
+                <Route path="/stacked" element={<Stacked />} />
                 <Route path="/stacked" element={<Stacked />} />
 
             </Routes>

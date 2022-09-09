@@ -11,18 +11,22 @@ const App = () => {
 
   return (     
     <BrowserRouter>
-    <Routes>
+    
       {
         localStorage.getItem('loginStatus') !== null ? (
-          <Route path='/' element={(<Dashboard />)} />
+          
+          <Dashboard />
         ):(
-          <Route path='/' element={<Login />}  />
-        )
+          <Routes>
+            <Route path='/' element={<Login />}  />
+            <Route path='/signup' element={<SignUp />}  />
+          </Routes>
+          )
       }
       
       
-      <Route path='/signup' element={<SignUp />}  />
-    </Routes>
+      
+    
     </BrowserRouter>
   );
 };

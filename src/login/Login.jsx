@@ -62,14 +62,13 @@ const Login = () => {
   }
   else {
     
-    axios.post('http://localhost:5000/api/signin', {
+    axios.post('https://decentralized-impact.alwaysdata.net/api/signin', {
       email: values.email,
       password: values.password,
     }).then((res) => {
-      console.log(res)
-      localStorage.setItem('Token', res.token)
-      localStorage.setItem('UserData', res.user)
+      localStorage.setItem('UserData', res.data.user)
       localStorage.setItem('loginStatus', 'logged')
+      // Admin Project confirmation, user can access confirmed projects 
       window.location.reload()
     }).catch((err) => {
       console.error(err)
