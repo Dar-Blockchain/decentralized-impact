@@ -53,10 +53,8 @@ const Login = () => {
       password: inputState.input.password,
     }).then((res) => {
       console.log(res.data.user._id)
-      localStorage.setItem('Token', res.data.token)
       localStorage.setItem('UserData', res.data.user)
       localStorage.setItem('loginStatus', 'logged')
-      localStorage.setItem('userType', 'Admin')
       // Admin Project confirmation, user can access confirmed projects 
         // window.location.reload()
     }).catch((err) => {
