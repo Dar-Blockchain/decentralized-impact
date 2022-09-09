@@ -4,7 +4,8 @@ import { useStateContext } from './contexts/ContextProvider';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components/Index';
-import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
+import { Ecommerce, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
+import Projects from './pages/Projects';
 import CreateProject from './components/CreateProject';
 
 
@@ -66,8 +67,7 @@ const Dashboard = () => {
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
                 {/* pages  */}
                 <Route path="/addproject" element={(<CreateProject />)} />
-                <Route path='' element='' />
-                <Route path="/orders" element={<Orders />} />
+                <Route path="/projects" element={<Projects />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
                 {/* apps  */}

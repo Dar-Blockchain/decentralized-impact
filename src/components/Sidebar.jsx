@@ -47,14 +47,14 @@ const Sidebar = () => {
           </div>
           <div className="mt-10 ">
             {links.map((item) => (
-              <div key={item.title}>
+              <div key={item.name === "Orders" ? (`Projects`):(`/${item.name}`) }>
                 <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
                   {item.title}
                 </p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${link.name}`}
-                    key={link.name}
+                    to={link.name === "orders" ? (`/projects`):(`/${link.name}`) }
+                    key={link.name === "orders" ? (`Projects`):(`${link.name}`) }
                     onClick={handleCloseSideBar}
                     style={({ isActive }) => ({
                       backgroundColor: isActive ? currentColor : "",
@@ -64,7 +64,7 @@ const Sidebar = () => {
                     }
                   >
                     {link.icon}
-                    <span className="capitalize ">{link.name}</span>
+                    <span className="capitalize ">{link.name === "orders" ? (`Projects`):(`${link.name}`) }</span>
                   </NavLink>
                 ))}
               </div>
