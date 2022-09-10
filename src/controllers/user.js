@@ -41,7 +41,7 @@ exports.signin = (req, res) => {
         message: "User not found.",
       });
     } else {
-      if (user.validPassword(req.body.password)) {
+      if (user.verified && user.validPassword(req.body.password)) {
         return res.json({
           token: jwt.sign(
             { email: user.email, firstName: user.firstName, _id: user._id },
