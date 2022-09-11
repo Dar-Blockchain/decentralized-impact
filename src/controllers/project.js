@@ -1,27 +1,6 @@
 var express = require("express");
 const Project = require("../models/project");
 var router = express.Router();
-//const multer = require("multer");
-
-/*const Storage = multer.diskStorage({
-    destination: 'uploads',
-    filename: (req,file,cb) =>{
-        cb(null,file.originalname);
-    }
-});
-const avatar  = multer({
-    storage: Storage,
-    limits: {
-        fileSize: 2000000,
-    },
-    fileFilter(req,file,cb){
-        if(!file.originalname.match(/\.(pdf|text)$/)) 
-        {
-            return cb(new  Error('this is not the correct format of file'));
-        }
-        cb(undefined,true)
-    }
-});*/
 
 exports.getAllProjects = (req, res) => {
   Project.find({}).then((project) => {
