@@ -35,6 +35,10 @@ exports.signup = (req, res) => {
 };
 //---------------------signin-------------------------------//
 exports.signin = (req, res) => {
+  let today = new Date();
+  let exp = new Date(today);
+  exp.setDate(today.getDate() + 60);
+
   User.findOne({ email: req.body.email }, function (err, user) {
     if (user === null) {
       return res.status(400).send({
@@ -44,7 +48,12 @@ exports.signin = (req, res) => {
       if (user.verified && user.validPassword(req.body.password)) {
         return res.json({
           token: jwt.sign(
-            { email: user.email, firstName: user.firstName, _id: user._id },
+            {
+              email: user.email,
+              firstName: user.firstName,
+              _id: user._id,
+              exp: parseInt(exp.getTime() / 1000),
+            },
             "RESTFULAPIs"
           ),
           user,
