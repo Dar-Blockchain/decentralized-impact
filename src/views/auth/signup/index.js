@@ -89,11 +89,10 @@ function SignIn() {
        req
        ).then(
         (res) => {
-          
+          console.log('this is that' + res)
           setLoaderState(false)
-          window.location.href = '/'
-          localStorage.setItem('userData', JSON.stringify(res.data.user))
-          localStorage.setItem('userToken', JSON.stringify(res.data.token))
+          window.location.href = '/horizon-ui-chakra#/admin/default'
+          console.log('wtf')
         }).catch((err) =>
         {
         if (err.code === 'ERR_BAD_REQUEST'){
