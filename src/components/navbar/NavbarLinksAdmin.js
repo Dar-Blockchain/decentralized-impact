@@ -52,6 +52,7 @@ export default function HeaderLinks(props) {
       p='10px'
       borderRadius='30px'
       boxShadow={shadow}>
+      <Button onClick={() => window.location.href = "/create/project"} mx='8px'>Create Project</Button>
       <SearchBar
         mb={secondary ? { base: "10px", md: "unset" } : "unset"}
         me='10px'

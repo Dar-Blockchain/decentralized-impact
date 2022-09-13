@@ -14,6 +14,7 @@ ReactDOM.render(
     <React.StrictMode>
       <ThemeEditorProvider>
         <HashRouter>
+        { (localStorage.getItem('userToken') && localStorage.getItem('userData'))  }
           <Switch>
             <Route path={`/auth`} component={AuthLayout} />
             <Route path={`/admin`} component={AdminLayout} />
