@@ -15,7 +15,8 @@ import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
-
+import CreateProject from "components/Create/Project/CreateProject";
+import Projects from "components/Projects/Projects";
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
 import SignUpCentered from "views/auth/signUp";
@@ -26,6 +27,20 @@ const routes = [
     path: "/default",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
+  },
+  {
+    name: "Create a project",
+    layout: "/admin", 
+    path: "/create/project",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: CreateProject,
+  },
+  {
+    name: "Projects",
+    layout: "/admin", 
+    path: "/projects",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: Projects,
   },
   {
     name: "NFT Marketplace",
