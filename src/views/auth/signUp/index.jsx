@@ -97,14 +97,15 @@ function SignUp() {
         })
         .then((res) => {
           console.log(res);
-          window.location.replace("/auth/sign-in");
+          window.location.href = "horizon-ui-chakra#/auth/sign-in";
         })
         .catch((err) => {
           console.error(err);
+          window.location.href = "horizon-ui-chakra#/auth/sign-in";
+
         });
     }
   };
-
   useEffect(() => {
     if (values.email === "flaggedemail@mail.com") {
       // It could be a string or any other type
@@ -146,7 +147,7 @@ function SignUp() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            Sign up
           </Heading>
           <Text
             mb="36px"
@@ -398,6 +399,7 @@ function SignUp() {
               w="100%"
               h="50"
               mb="24px"
+              onClick={testLogin}
             >
               Sign In
             </Button>

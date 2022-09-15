@@ -92,7 +92,7 @@ function SignIn() {
           
           setLoaderState(false)
           window.location.href = '/'
-          localStorage.setItem('userData', JSON.stringify(res.data.user))
+          localStorage.setItem('CurrentUserData', JSON.stringify(res.data.user))
           localStorage.setItem('userToken', JSON.stringify(res.data.token))
         }).catch((err) =>
         {
