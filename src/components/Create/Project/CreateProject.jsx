@@ -14,6 +14,7 @@ const CreateProject = () => {
       newArr[e.target.id] = e.target.value
       console.log(newArr)
       setTeamMembers(newArr)
+      setProject({...project, teamMemberEmails: newArr })
 }
 
   const titleHandler =  (e) => {
@@ -28,7 +29,7 @@ const CreateProject = () => {
     {
       title: "",
       category: "",
-      teamMemberEmails: teamMembers,
+      teamMemberEmails: [],
       description: "",
       descriptionFileUrl:"",
       state: ""
