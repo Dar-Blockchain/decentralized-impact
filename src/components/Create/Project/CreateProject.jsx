@@ -16,7 +16,14 @@ const CreateProject = () => {
       setTeamMembers(newArr)
 }
 
-  const titleHandler =  
+  const titleHandler =  (e) => {
+    
+  }
+  const categoryHandler = (e) => {
+
+  }
+
+  
   const [project, setProject] = useState(
     {
       title: "",
@@ -47,16 +54,22 @@ const CreateProject = () => {
     me='auto'
     mb={{ base: "20px", md: "auto" }}
     alignSelf='center'
+    alignContent='center'
+    alignItems='center'
+    mx='auto'
+    padding={'16'}
+    border={'1px'}
+    justifyContent='space-around'
     >
-    <FormControl id="projecTitle">
+    <FormControl  id="projecTitle">
       <FormLabel>Project title</FormLabel>
-      <Input type="text" />
+      <Input onChange={(e) => setProject({...project, title: e.target.value })} color={'white'} type="text" />
     </FormControl>
     <FormControl id="teamMemberEmails">
       <FormLabel>team memebers email</FormLabel>
-      <Flex className='teamMemberInSection' direction={'column'}  >
+      <Flex justifyContent={'space-around'} className='teamMemberInSection' direction={'column'}  >
         {teamMembers.map((value, index) => {
-          return(<Input onChange={setTeamMember} id={index}  type="email" />)
+          return(<Input color={'white'} my={'1.5'} onChange={setTeamMember} id={index}  type="email" />)
         })}
       </Flex>
       <Button onClick={addHandler}>Add</Button>
@@ -64,17 +77,16 @@ const CreateProject = () => {
     </FormControl>
     <FormControl id="description">
       <FormLabel>Project Description</FormLabel>
-      <Input type="text" />
-      <FormHelperText>Project description</FormHelperText>
+      <Input onChange={(e) => setProject({...project, description: e.target.value })} color={'white'} my={'1.5'} type="text" />
     </FormControl>
-    <Select placeholder='Select project category'>
-      <option value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
-      <option value='ENERGY & ENVIRONMENT'>ENERGY & ENVIRONMENT</option>
-      <option value='LOGISTICS & MOBILITY'>LOGISTICS & MOBILITY</option>
-      <option value='FINANCIAL INCLUSION'>FINANCIAL INCLUSION</option>
-      <option value='CREATIVE INDUSTRIES'>CREATIVE INDUSTRIES</option>
-      <option value='SOCIAL & CIVIC TECH'>SOCIAL & CIVIC TECH</option>
-  </Select>
+        <Select my={'1.5'} placeholder='Select project category'>
+          <option onClick={(e) => setProject({...project, category: e.target.value })}  value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
+          <option onClick={(e) => setProject({...project, category: e.target.value })}  value='ENERGY & ENVIRONMENT'>ENERGY & ENVIRONMENT</option>
+          <option onClick={(e) => setProject({...project, category: e.target.value })}  value='LOGISTICS & MOBILITY'>LOGISTICS & MOBILITY</option>
+          <option onClick={(e) => setProject({...project, category: e.target.value })}   value='FINANCIAL INCLUSION'>FINANCIAL INCLUSION</option>
+          <option onClick={(e) => setProject({...project, category: e.target.value })}  value='CREATIVE INDUSTRIES'>CREATIVE INDUSTRIES</option>
+          <option onClick={(e) => setProject({...project, category: e.target.value })} value='SOCIAL & CIVIC TECH'>SOCIAL & CIVIC TECH</option>
+        </Select>
     </Flex>
     </Box>
   )
