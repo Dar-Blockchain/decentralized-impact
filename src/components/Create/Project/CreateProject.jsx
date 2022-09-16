@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, option, CheckboxGroup } from '@chakra-ui/react'
+import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, option, CheckboxGroup, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
 
 const CreateProject = () => {
   const [teamMembers, setTeamMembers] = useState([''])
-
+  const [loader, setLoader] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const addHandler = () => {
     setTeamMembers([...teamMembers, ''])
   }
@@ -17,12 +19,6 @@ const CreateProject = () => {
       setProject({...project, teamMemberEmails: newArr })
 }
 
-  const titleHandler =  (e) => {
-    
-  }
-  const categoryHandler = (e) => {
-
-  }
 
   
   const [project, setProject] = useState(
@@ -32,14 +28,19 @@ const CreateProject = () => {
       teamMemberEmails: [],
       description: "",
       descriptionFileUrl:"",
-      state: ""
+      state: "incubation"
   }
   )
   const postProject = () => {
+    setLoader(true)
     axios.post('https://decentralized-impact.alwaysdata.net/project/addproject', project).then((resp) => {
       console.log(resp)
+      setLoader(false)
     }).then((err) => {
       console.log(err)
+      setErrorMessage(err)
+      setError(true)
+      setLoader(false)
     })
   }
 
@@ -62,8 +63,10 @@ const CreateProject = () => {
     border={'1px'}
     justifyContent='space-around'
     >
-    <FormControl  id="projecTitle">
-      <FormLabel>Project title</FormLabel>
+    {loader === true ? (<Spinner />):(
+      <Flex direction={'column'}>
+      <FormControl  id="projecTitle">
+      <FormLabel>{error === true ? (errorMessage):('Project title')}</FormLabel>
       <Input onChange={(e) => setProject({...project, title: e.target.value })} color={'white'} type="text" />
     </FormControl>
     <FormControl id="teamMemberEmails">
@@ -88,7 +91,12 @@ const CreateProject = () => {
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='CREATIVE INDUSTRIES'>CREATIVE INDUSTRIES</option>
           <option onClick={(e) => setProject({...project, category: e.target.value })} value='SOCIAL & CIVIC TECH'>SOCIAL & CIVIC TECH</option>
         </Select>
+        <Button onClick={postProject} mt='10'>Submit</Button>
     </Flex>
+    )}
+
+    </Flex>
+
     </Box>
   )
 }
