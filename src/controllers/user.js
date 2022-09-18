@@ -15,8 +15,6 @@ const resetPassword = require("../controllers/resetPassword");
 const { url } = require("inspector");
 const urll = "http://localhost:5000/api";
 const Joi = require("joi");
-
-
 //---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
   try {
