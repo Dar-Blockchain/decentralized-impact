@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const tokenSchema = new Schema({
+const resetToken = new Schema({
   userId:{
   type:Schema.Types.ObjectId,
   require:true,
@@ -17,4 +17,4 @@ ccreated_at: {
 },
 
 });
-module.exports = mongoose.model("token",tokenSchema);
+module.exports = mongoose.model("resetToken",resetToken);

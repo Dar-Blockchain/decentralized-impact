@@ -7,57 +7,17 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 const Token = require("../models/Token");
+
+const resetToken = require("../models/resetToken");
+
 const sendEmail = require("../controllers/sendEmail");
+const resetPassword = require("../controllers/resetPassword");
 const { url } = require("inspector");
 const urll = "http://localhost:5000/api";
+const Joi = require("joi");
 
-//---------------------signUp-------------------------------//
-exports.signup = (req, res) => {
-  // Initialize newUser object with request data
-  let newUser = new User({
-    ...req.body,
-  });
 
-  // Call setPassword function to hash password
-  newUser.setPassword(req.body.password);
-
-  newUser.save((err, newUser) => {
-    if (err) {
-      return res.status(400).json({
-        error: err.message,
-      });
-    }
-    return res.json({
-      message: "sucsess",
-      newUser,
-    });
-  });
-};
-//---------------------signin-------------------------------//
-exports.signin = (req, res) => {
-  User.findOne({ email: req.body.email }, function (err, user) {
-    if (user === null) {
-      return res.status(400).send({
-        message: "User not found.",
-      });
-    } else {
-      if (user.validPassword(req.body.password)) {
-        return res.json({
-          token: jwt.sign(
-            { email: user.email, firstName: user.firstName, _id: user._id },
-            "RESTFULAPIs"
-          ),
-          user,
-        });
-      } else {
-        return res.status(400).send({
-          message: "Wrong Password",
-        });
-      }
-    }
-  });
-};
-
+//---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
   try {
     let user = await User.findOne(
@@ -88,8 +48,6 @@ exports.signup = async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 };
-
-//---------------------signin-------------------------------//
 //----------------------verify-------------------------------//
 exports.Token = async (req, res) => {
   // Find a matching token
@@ -123,15 +81,97 @@ exports.Token = async (req, res) => {
     });
   });
 };
-
-//--------------------------signout---------------------------//
-exports.signout = (req, res) => {
-  res.clearCookie("token");
-  return res.json({
-    message: "user signout",
+//---------------------signin-------------------------------//
+exports.signin = (req, res) => {
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (user === null) {
+      return res.status(400).send({
+        message: "User not found.",
+      });
+    } else {
+      if (user.validPassword(req.body.password) && user.verified == true ) {
+        return res.json({
+          token: jwt.sign(
+            { email: user.email, firstName: user.firstName, _id: user._id },
+            "RESTFULAPIs"
+          ),
+          user,
+        });
+      } else
+      if(user.validPassword(req.body.password) && user.verified == false){
+        return res.status(400).send({
+          message: "user not verified",
+        });
+      }
+      
+      else {
+        return res.status(400).send({
+          message: "Wrong Password",
+        });
+      }
+    }
   });
-};
+}
+//------------------------------forgot password------------------//
+exports.forgotPassword = async (req , res )=>{
 
+  try {
+    let user = await User.findOne({ email: req.body.email });
+    if (!user)
+      return res
+        .status(409)
+        .send({ message: "User with given email not Exist!" });
+
+    /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);*/
+    const token = await new resetToken({
+      userId: user._id,
+      token: crypto.randomBytes(32).toString("hex"),
+    }).save();
+
+    
+    const url = `${urll}/${user._id}/reset-password/${token.token}`;
+    await resetPassword(user.email, "reset Password Email", url);
+    res
+      .status(201)
+      .send({ message: "An Email sent to your account please verify" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+//--------------------------reset password-----------------------//
+exports.resetPassword = async (req, res) => {
+  resetToken.findOne({ token: req.params.token }, function (err, token) {
+    if (!token)
+      return res.status(400).send({
+        type: "not-exist",
+        msg: `We were unable to find a valid token.Your token my have expired.`,
+      });
+
+    // If we found a token, find a matching user
+    User.findOne({ _id: token.userId }, function (err, user) {
+      if (!user)
+        return res
+          .status(400)
+          .send({ msg: "We were unable to find a user for this token." });
+     
+
+      // Verify and save the user
+      user.password = req.body.password;
+            user.setPassword(req.body.password);
+     
+    
+      user.save(function (err) {
+        if (err) {
+          return res.status(500).send({ msg: err.message });
+        }
+        res.status(200).send("The password has been changed. Please login.");
+      });
+    });
+  });
+        };
+//--------------------------get users---------------------------//
 exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => {
@@ -141,7 +181,7 @@ exports.getUsers = (req, res) => {
       res.satus(400).json({ error });
     });
 };
-
+//-------------------------makeAdmin---------------------------//
 exports.makeAdmin = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
@@ -155,7 +195,7 @@ exports.makeAdmin = (req, res) => {
       res.satus(400).json({ error });
     });
 };
-
+//-------------------------makeCommunityMember----------------//
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
@@ -170,5 +210,12 @@ exports.makeCommunityMember = (req, res) => {
       res.status(400).json({ error });
     });
 };
+//--------------------------signout---------------------------//
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  return res.json({
+    message: "user signout",
+  });
+};
 
-// 6313aab62754f7fdf6e84bbe
+
