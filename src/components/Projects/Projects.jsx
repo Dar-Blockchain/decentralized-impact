@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Spinner } from '@chakra-ui/react'
+import { Spinner, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Icon } from '@chakra-ui/react'
 import ComplexTable from "views/admin/default/components/ComplexTable";
 import {
     Table,
@@ -16,6 +17,7 @@ import {
   } from "@chakra-ui/react"
 
 
+  import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 
 
 const Projects = () => {
@@ -79,7 +81,8 @@ const Projects = () => {
 
 
 
-
+const textColor = useColorModeValue("secondaryGray.900", "white");
+const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
 return (
     <div>
@@ -91,9 +94,23 @@ return (
                 <TableCaption>Projects</TableCaption>
                 <Thead>
                     <Tr>
-                    <Th>Title</Th>
-                    <Th>category</Th>
-                    <Th isNumeric>state</Th>
+                    <Th 
+                    pe='10px'
+                    borderColor={borderColor}
+                    >Title</Th>
+                    <Th
+                    pe='10px'
+                    borderColor={borderColor}>state</Th>
+
+                    <Th
+                    pe='10px'
+                    borderColor={borderColor}
+                    >category</Th>
+                    <Th
+                    pe='10px'
+                    borderColor={borderColor}
+                    >Date</Th>
+
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -101,9 +118,46 @@ return (
                     projects.map((value, index) => {
                         console.log(value)
                     return (<Tr key={index}>
-                    <Td>{value.title}</Td>
-                    <Td>{value.category}</Td>
-                    <Td>{value.state}</Td>
+                    <Td color={textColor} fontSize='sm' fontWeight='700'>{value.title}</Td>
+                    <Td
+                    display={'flex'}
+                    color={
+                      value.state === "Approved"
+                        ? "green.500"
+                        : value.state === "Disable"
+                        ? "red.500"
+                        : value.state === 'incubation'
+                        ? "blue.500"
+                        : value.state === "Error"
+                        ? "orange.500"
+                        : null
+                    }
+                    >
+                    <Icon
+                          w='24px'
+                          h='24px'
+                          me='5px'
+                          color={
+                            value.state === "incubation"
+                              ? "green.500"
+                              : value.state === "Disable"
+                              ? "red.500"
+                              : value.state === "Error"
+                              ? "orange.500"
+                              : null
+                          }
+                          as={
+                            value.state === "incubation"
+                              ? MdCheckCircle
+                              : value.state === "Disable"
+                              ? MdCancel
+                              : value.state === "Error"
+                              ? MdOutlineError
+                              : null
+                          }/>
+                    {value.state}</Td>
+                    <Td color={textColor} fontSize='sm' fontWeight='700'>{value.category}</Td>
+                    <Td color={textColor} fontSize='sm' fontWeight='700'>{new Date(value.createdAt).toLocaleDateString()}</Td>
                     </Tr>)
                 })}
                 </Tbody>

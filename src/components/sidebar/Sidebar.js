@@ -27,6 +27,8 @@ import { IoMenuOutline } from "react-icons/io5";
 
 function Sidebar(props) {
   const { routes } = props;
+  const t = routes.splice(6,6)
+  console.log(t)
 
   let variantChange = "0.2s linear";
   let shadow = useColorModeValue(

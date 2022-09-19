@@ -14,13 +14,20 @@ ReactDOM.render(
     <React.StrictMode>
       <ThemeEditorProvider>
         <HashRouter>
-        { (localStorage.getItem('userToken') && localStorage.getItem('userData'))  }
+        { (localStorage.getItem('userToken') && localStorage.getItem('CurrentUserData')) ? (
           <Switch>
-            <Route path={`/auth`} component={AuthLayout} />
-            <Route path={`/admin`} component={AdminLayout} />
-            <Route path={`/rtl`} component={RTLLayout} />
-            <Redirect from='/' to='/admin' />
-          </Switch>
+
+          
+          <Route path={`/admin`} component={AdminLayout} />
+          <Route path={`/rtl`} component={RTLLayout} />
+          <Redirect from='/' to='/admin' />
+        </Switch>
+        ):(<Switch>
+
+          <Route path={`/auth`} component={AuthLayout} />
+          <Redirect from='/' to='/auth/sign-in' />
+        </Switch>) }
+          
         </HashRouter>
       </ThemeEditorProvider>
     </React.StrictMode>
