@@ -7,13 +7,15 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 const Token = require("../models/Token");
+const sendEmail = require("../controllers/sendEmail");
+const { url } = require("inspector");
+const urll = "http://localhost:5000/api";
 
 const resetToken = require("../models/resetToken");
 
 const sendEmail = require("../controllers/sendEmail");
 const resetPassword = require("../controllers/resetPassword");
 const { url } = require("inspector");
-const urll = "http://localhost:5000/api";
 const Joi = require("joi");
 //---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
@@ -87,7 +89,7 @@ exports.signin = (req, res) => {
         message: "User not found.",
       });
     } else {
-      if (user.validPassword(req.body.password) && user.verified == true ) {
+      if (user.validPassword(req.body.password) && user.verified == true) {
         return res.json({
           token: jwt.sign(
             { email: user.email, firstName: user.firstName, _id: user._id },
@@ -95,24 +97,23 @@ exports.signin = (req, res) => {
           ),
           user,
         });
-      } else
-      if(user.validPassword(req.body.password) && user.verified == false){
+      } else if (
+        user.validPassword(req.body.password) &&
+        user.verified == false
+      ) {
         return res.status(400).send({
           message: "user not verified",
         });
-      }
-      
-      else {
+      } else {
         return res.status(400).send({
           message: "Wrong Password",
         });
       }
     }
   });
-}
+};
 //------------------------------forgot password------------------//
-exports.forgotPassword = async (req , res )=>{
-
+exports.forgotPassword = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (!user)
@@ -127,7 +128,6 @@ exports.forgotPassword = async (req , res )=>{
       token: crypto.randomBytes(32).toString("hex"),
     }).save();
 
-    
     const url = `${urll}/${user._id}/reset-password/${token.token}`;
     await resetPassword(user.email, "reset Password Email", url);
     res
@@ -153,13 +153,11 @@ exports.resetPassword = async (req, res) => {
         return res
           .status(400)
           .send({ msg: "We were unable to find a user for this token." });
-     
 
       // Verify and save the user
       user.password = req.body.password;
-            user.setPassword(req.body.password);
-     
-    
+      user.setPassword(req.body.password);
+
       user.save(function (err) {
         if (err) {
           return res.status(500).send({ msg: err.message });
@@ -168,7 +166,82 @@ exports.resetPassword = async (req, res) => {
       });
     });
   });
-        };
+};
+
+exports.signup = async (req, res) => {
+  try {
+    let user = await User.findOne(
+      ({ firstName, lastName, email, password } = req.body)
+    );
+    if (user)
+      return res
+        .status(409)
+        .send({ message: "User with given email already Exist!" });
+
+    /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);*/
+
+    user = new User({ ...req.body });
+    user.setPassword(req.body.password);
+    await user.save();
+    const token = await new Token({
+      userId: user._id,
+      token: crypto.randomBytes(32).toString("hex"),
+    }).save();
+    const url = `${urll}/${user._id}/verify/${token.token}`;
+    await sendEmail(user.email, "Verify Email", url);
+    res
+      .status(201)
+      .send({ message: "An Email sent to your account please verify" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+//---------------------signin-------------------------------//
+//----------------------verify-------------------------------//
+exports.Token = async (req, res) => {
+  // Find a matching token
+  Token.findOne({ token: req.params.token }, function (err, token) {
+    if (!token)
+      return res.status(400).send({
+        type: "not-verified",
+        msg: `We were unable to find a valid token.Your token my have expired.`,
+      });
+
+    // If we found a token, find a matching user
+    User.findOne({ _id: token.userId }, function (err, user) {
+      if (!user)
+        return res
+          .status(400)
+          .send({ msg: "We were unable to find a user for this token." });
+      if (user.verified)
+        return res.status(400).send({
+          type: "already-verified",
+          msg: "This user has already been verified.",
+        });
+
+      // Verify and save the user
+      user.verified = true;
+      user.save(function (err) {
+        if (err) {
+          return res.status(500).send({ msg: err.message });
+        }
+        res.status(200).send("The account has been verified. Please login.");
+      });
+    });
+  });
+};
+
+//--------------------------signout---------------------------//
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  return res.json({
+    message: "user signout",
+  });
+};
+
 //--------------------------get users---------------------------//
 exports.getUsers = (req, res) => {
   User.find({})
@@ -215,5 +288,3 @@ exports.signout = (req, res) => {
     message: "user signout",
   });
 };
-
-
