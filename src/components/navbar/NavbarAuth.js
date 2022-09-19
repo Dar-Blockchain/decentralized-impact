@@ -435,7 +435,68 @@ export default function AuthNavbar(props) {
   );
 
   return (
-    <h1>hahah</h1>
+    <SidebarContext.Provider value={{ sidebarWidth }}>
+      <Flex
+        position={navbarPosition}
+        top='16px'
+        left='50%'
+        transform='translate(-50%, 0px)'
+        background={navbarBg}
+        boxShadow={navbarShadow}
+        borderRadius='15px'
+        px='16px'
+        py='22px'
+        mx='auto'
+        width='1044px'
+        maxW='90%'
+        alignItems='center'
+        zIndex='3'>
+        <Flex w='100%' justifyContent={{ sm: "start", lg: "space-between" }}>
+          {brand}
+          <Box
+            ms={{ base: "auto", lg: "0px" }}
+            display={{ base: "flex", lg: "none" }}
+            justifyContent='center'
+            alignItems='center'>
+            <SidebarResponsive
+              logo={
+                <Stack
+                  direction='row'
+                  spacing='12px'
+                  align='center'
+                  justify='center'>
+                  <Box
+                    w='1px'
+                    h='20px'
+                    bg={colorMode === "dark" ? "white" : "gray.700"}
+                  />
+                </Stack>
+              }
+              logoText={props.logoText}
+              secondary={props.secondary}
+              routes={routes}
+              {...rest}
+            />
+          </Box>
+          {linksAuth}
+          <Link href='https://www.horizon-ui.com/pro'>
+            <Button
+              bg={bgButton}
+              color={colorButton}
+              fontSize='xs'
+              variant='no-effects'
+              borderRadius='50px'
+              px='45px'
+              display={{
+                sm: "none",
+                lg: "flex",
+              }}>
+              Buy Now
+            </Button>
+          </Link>
+        </Flex>
+      </Flex>
+    </SidebarContext.Provider>
   );
 }
 

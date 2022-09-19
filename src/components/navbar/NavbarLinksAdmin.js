@@ -171,14 +171,14 @@ export default function HeaderLinks(props) {
           maxW={{ base: "360px", md: "unset" }}>
           <Image src={navImage} borderRadius='16px' mb='28px' />
           <Flex flexDirection='column'>
-            <Link w='100%' href='https://horizon-ui.com/pro'>
+            <Link w='100%' href='/'>
               <Button w='100%' h='44px' mb='10px' variant='brand'>
-                Buy Horizon UI PRO
+                TEST 1
               </Button>
             </Link>
             <Link
               w='100%'
-              href='https://horizon-ui.com/documentation/docs/introduction'>
+              href='/'>
               <Button
                 w='100%'
                 h='44px'
@@ -212,7 +212,7 @@ export default function HeaderLinks(props) {
           <Avatar
             _hover={{ cursor: "pointer" }}
             color='white'
-            name='Adela Parkson'
+            name={JSON.parse(localStorage.getItem('CurrentUserData')).firstName  + " " + JSON.parse(localStorage.getItem('CurrentUserData')).lastName} 
             bg='#11047A'
             size='sm'
             w='40px'
@@ -237,7 +237,7 @@ export default function HeaderLinks(props) {
               fontSize='sm'
               fontWeight='700'
               color={textColor}>
-              👋&nbsp; Hey, Adela
+              👋&nbsp; Hey, {JSON.parse(localStorage.getItem('CurrentUserData')).firstName}
             </Text>
           </Flex>
           <Flex flexDirection='column' p='10px'>
