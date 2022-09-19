@@ -77,16 +77,17 @@ exports.makeAdmin = (req, res) => {
     { new: true, upsert: false })
     .then((users) => {
       res.status(200).json({ users , message: "changed !"});
+      console.log(user.userType)
     })
     .catch((error) => {
-      res.satus(400).json({ error });
+      res.satus(400).json({ error, message: "faild" } );
     });
 };
 
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Community", wallet: "0x01" } },
+    { $set: { userType: "Community", wallet: req.body.wallet } },
     { new: true, upsert: false }
   )
     .then((user) => {

@@ -1,4 +1,0 @@
-exports.IPFS_HOST = 'ipfs.infura.io'
-exports.IPFS_PORT = 5001
-exports.INFURA_PROJECT_ID = '2EXL5ZnH3UykJNdh1PyCGRGq2FV'
-exports.INFURA_PROJECT_SECRET = '3a89e8159b9526f1d639972a3300c69f'

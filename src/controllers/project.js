@@ -1,6 +1,7 @@
 var express = require("express");
 const Project = require("../models/project");
 var router = express.Router();
+const toCommunity = require("./user")
 
 exports.getAllProjects = (req, res) => {
   Project.find({}).then((project) => {
@@ -15,7 +16,7 @@ exports.getAllProjects = (req, res) => {
   });
 };
 
-exports.addProject = (req, res) => {
+exports.addProject = (req, res) =>{
   let newProject = new Project({
     ...req.body,
   });
@@ -23,30 +24,11 @@ exports.addProject = (req, res) => {
   newProject
     .save()
     .then(() => {
+      toCommunity.makeCommunityMember(),
       res.status(201).json({ message: "object created" });
     })
     .catch((error) => res.status(400).json({ error }));
 };
-/*
-router.post('/uploadPhotos/:id',avatar.single('upload'),async(req,res) =>{
-    const photo = req.file.buffer;
-    const id = req.params.id;
-    const projMgt  = new projectManaggement();
-    projMgt.addPhoto(id,photo).then((resp) =>{
-        if(resp == null){
-            res.status(404).send("project not found");
-        }
-        else if(!resp) {
-            return res.status(400).send( {
-                message : "project not found",
-                value: resp
-            });
-        }
-        else {
-            return res.status(200).send({message :" upload photos succeed ", value: resp});
-        }
-    });
-});*/
 exports.getProjectById = (req, res) => {
   Project.findOne({ _id: req.params.id }).then((project) => {
     if (!project) {

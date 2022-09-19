@@ -7,10 +7,6 @@ const AdminSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  role: {
-    type: String,
-    required: true,
-  },
   walletHash: String,
 
   walletSalt: String,

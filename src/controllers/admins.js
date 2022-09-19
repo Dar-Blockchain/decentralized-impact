@@ -1,17 +1,31 @@
 const Admin = require("../models/admin");
+const toAdmin = require("./user")
+const User =require("../models/User")
+
 
 exports.addAdmin = (req, res) => {
+  newAdmin.save()
+    .then(() => {
+      toAdmin.makeAdmin()
+      (res.status(200).json({ message: "admin crated !" }))})
+
+    .catch((error) => res.status(400).json({ error }))
+  }
+
+    /*
+
   let newAdmin = new Admin({
     ...req.body,
   });
 
-  newAdmin
-    .save()
-    .then(() => {
-      res.status(201).json({ message: "Admin created" });
-    })
-    .catch((error) => res.status(400).json({ error }));
-};
+  newAdmin.save()
+
+    .then((admin) => {
+      toAdmin.makeAdmin()
+      res.status(201).json( admin ,{ message: "Admin created" })})
+    .catch((error) => res.status(400).json({ error, message :"faild ..."}));
+    */
+
 
 exports.getAllAdmins = (req, res) => {
   Admin.find()
