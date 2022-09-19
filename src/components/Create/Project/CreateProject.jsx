@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, option, CheckboxGroup, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
+import { MultipleFilesUpload } from "react-ipfs-uploader";
 
 const CreateProject = () => {
   const [teamMembers, setTeamMembers] = useState([''])
@@ -31,6 +32,8 @@ const CreateProject = () => {
       state: "incubation"
   }
   )
+  const [multipleFilesUrl, setMultipleFilesUrl] = useState("");
+
   const postProject = () => {
     setLoader(true)
     axios.post('https://decentralized-impact.alwaysdata.net/project/addproject', project).then((resp) => {
@@ -83,6 +86,13 @@ const CreateProject = () => {
       <FormLabel>Project Description</FormLabel>
       <Input onChange={(e) => setProject({...project, description: e.target.value })} color={'white'} my={'1.5'} type="text" />
     </FormControl>
+        <div>
+        <MultipleFilesUpload setUrl={setMultipleFilesUrl} id='1' />
+        MultipleFilesUrl :{" "}
+        <a href={multipleFilesUrl} target="_blank" rel="noopener noreferrer">
+          {multipleFilesUrl}
+        </a>
+      </div>
         <Select my={'1.5'} placeholder='Select project category'>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='ENERGY & ENVIRONMENT'>ENERGY & ENVIRONMENT</option>

@@ -91,8 +91,8 @@ function SignIn() {
         (res) => {
           console.log('this is that' + res)
           setLoaderState(false)
-          window.location.href = '/horizon-ui-chakra#/admin/default'
-          console.log('wtf')
+          alert('please verify your email')
+          window.location.href = '/auth/signin'
         }).catch((err) =>
         {
         if (err.code === 'ERR_BAD_REQUEST'){
