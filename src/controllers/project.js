@@ -1,5 +1,7 @@
 var express = require("express");
 const Project = require("../models/project");
+const userController = require("../controllers/user");
+const sendEmail = require("../controllers/sendEmail");
 var router = express.Router();
 
 exports.getAllProjects = (req, res) => {
@@ -19,10 +21,26 @@ exports.addProject = (req, res) => {
   let newProject = new Project({
     ...req.body,
   });
-
+  let mails = req.body.teamMemberEmails;
+  console.log(mails);
   newProject
     .save()
-    .then(() => {
+    .then((project) => {
+      // for each team member email
+      mails.forEach(async (mail) => {
+        user = userController.findUserByEmail(mail);
+        console.log(user);
+        // if user has an account
+        if (user) {
+          await sendEmail(mail, "You have been added to a project", "Link");
+          // add this user to project and add project to user
+          user.projects.push(project._id);
+        } else {
+          console.log("mch mawjoud");
+          console.log(mail);
+        }
+      });
+
       res.status(201).json({ message: "object created" });
     })
     .catch((error) => res.status(400).json({ error }));

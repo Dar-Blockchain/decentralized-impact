@@ -10,14 +10,6 @@ const {
   signout,
   profile,
   Token,
-} = require("../controllers/user");
-
-const {
-  signup,
-  signin,
-  signout,
-  profile,
-  Token,
   forgotPassword,
   resetPassword,
 } = require("../controllers/user");

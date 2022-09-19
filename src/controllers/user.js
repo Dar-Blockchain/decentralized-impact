@@ -7,9 +7,7 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 const Token = require("../models/Token");
-const sendEmail = require("../controllers/sendEmail");
-const { url } = require("inspector");
-const urll = "http://localhost:5000/api";
+const urll = "http://localhost:3000/api";
 
 const resetToken = require("../models/resetToken");
 
@@ -106,7 +104,7 @@ exports.signin = (req, res) => {
         });
       } else {
         return res.status(400).send({
-          message: "Wrong Password",
+          message: "Wrong Password or user not verified",
         });
       }
     }
@@ -167,7 +165,7 @@ exports.resetPassword = async (req, res) => {
     });
   });
 };
-
+/*
 exports.signup = async (req, res) => {
   try {
     let user = await User.findOne(
@@ -179,7 +177,7 @@ exports.signup = async (req, res) => {
         .send({ message: "User with given email already Exist!" });
 
     /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    const hashPassword = await bcrypt.hash(req.body.password, salt);*/
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
 
     user = new User({ ...req.body });
     user.setPassword(req.body.password);
@@ -198,7 +196,7 @@ exports.signup = async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 };
-
+*/
 //---------------------signin-------------------------------//
 //----------------------verify-------------------------------//
 exports.Token = async (req, res) => {
@@ -288,3 +286,15 @@ exports.signout = (req, res) => {
     message: "user signout",
   });
 };
+
+exports.findUserByEmail = (email) => {
+  User.findOne({ email: email })
+    .then((user) => {
+      return user;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// 6313aab62754f7fdf6e84bbe

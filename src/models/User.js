@@ -30,9 +30,11 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    projects: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Project" }],
     hash: String,
     salt: String,
   },
+
   options
 );
 
