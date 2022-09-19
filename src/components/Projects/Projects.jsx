@@ -77,7 +77,12 @@ const Projects = () => {
 //     columnsData={columnsDataComplex}
 //     tableData={tableDataComplex}
 //   />
-
+// On_hold,
+//         Published,
+//         Accepted,
+//         Refused,
+//         under_revision,
+//         selected
 
 
 
@@ -137,6 +142,7 @@ return (
                           w='24px'
                           h='24px'
                           me='5px'
+                          
                           color={
                             value.state === "incubation"
                               ? "green.500"

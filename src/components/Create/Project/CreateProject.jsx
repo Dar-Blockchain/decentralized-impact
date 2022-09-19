@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, option, CheckboxGroup, Spinner } from '@chakra-ui/react'
+import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
-import { MultipleFilesUpload } from "react-ipfs-uploader";
 
 const CreateProject = () => {
+  const [file, setFile] = useState()
+  const [myipfsHash, setIPFSHASH] = useState('')
+  const [fileImg, setFileImg] = useState(null);
   const [teamMembers, setTeamMembers] = useState([''])
   const [loader, setLoader] = useState(false)
   const [error, setError] = useState(false)
@@ -11,6 +13,13 @@ const CreateProject = () => {
   const addHandler = () => {
     setTeamMembers([...teamMembers, ''])
   }
+  
+
+
+
+
+
+
 
   const setTeamMember = (e) => {
       const newArr = teamMembers
@@ -32,7 +41,41 @@ const CreateProject = () => {
       state: "incubation"
   }
   )
-  const [multipleFilesUrl, setMultipleFilesUrl] = useState("");
+
+  const sendFileToIPFS = async (e) => {
+
+    if (fileImg) {
+        try {
+
+            const formData = new FormData();
+            formData.append("file", fileImg);
+
+            const resFile = await axios({
+                method: "post",
+                url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                data: formData,
+                headers: {
+                    'pinata_api_key': `ecc893f2e822392c57fb`,
+                    'pinata_secret_api_key': `5fde16343f8bce5c3da96c248ff6a8632b8337985169d103975270af5072ada1`,
+                    "Content-Type": "multipart/form-data"
+                },
+            });
+
+            const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+            setProject({...project, descriptionFileUrl: ImgHash })
+         console.log(ImgHash); 
+//Take a look at your Pinata Pinned section, you will see a new file added to you list.   
+
+
+
+        } catch (error) {
+            console.log("Error sending File to IPFS: ")
+            console.log(error)
+        }
+    }
+}
+
+
 
   const postProject = () => {
     setLoader(true)
@@ -86,13 +129,11 @@ const CreateProject = () => {
       <FormLabel>Project Description</FormLabel>
       <Input onChange={(e) => setProject({...project, description: e.target.value })} color={'white'} my={'1.5'} type="text" />
     </FormControl>
-        <div>
-        <MultipleFilesUpload setUrl={setMultipleFilesUrl} id='1' />
-        MultipleFilesUrl :{" "}
-        <a href={multipleFilesUrl} target="_blank" rel="noopener noreferrer">
-          {multipleFilesUrl}
-        </a>
-      </div>
+    <form >
+    <FormLabel>Project Document</FormLabel>
+    <Input display={'flex'} justifyContent='align-items-center' type="file" onChange={(e) =>setFileImg(e.target.files[0])} required />
+    <Button onClick={sendFileToIPFS} >Submit Document</Button>            
+    </form>
         <Select my={'1.5'} placeholder='Select project category'>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='ENERGY & ENVIRONMENT'>ENERGY & ENVIRONMENT</option>
