@@ -42,7 +42,7 @@ export default function Overview() {
       {/* Main Fields */}
       <Grid
         templateColumns={{
-          base: "1fr",
+          base: "2fr",
           lg: "1.34fr 1fr 1.62fr",
         }}
         templateRows={{
@@ -54,18 +54,20 @@ export default function Overview() {
           gridArea='1 / 1 / 2 / 2'
           banner={banner}
           avatar={avatar}
-          name='Adela Parkson'
+          name={JSON.parse(localStorage.getItem('CurrentUserData')).firstName  + " " + JSON.parse(localStorage.getItem('CurrentUserData')).lastName} 
+
           job='Product Designer'
           posts='17'
           followers='9.7k'
           following='274'
         />
+      {/*
         <Storage
           gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
           used={25.6}
           total={50}
-        />
-        <Upload
+        />    
+                <Upload
           gridArea={{
             base: "3 / 1 / 4 / 2",
             lg: "1 / 3 / 2 / 4",
@@ -74,6 +76,9 @@ export default function Overview() {
           pe='20px'
           pb={{ base: "100px", lg: "20px" }}
         />
+    */}
+
+
       </Grid>
       <Grid
         mb='20px'
@@ -92,7 +97,8 @@ export default function Overview() {
           gridArea='1 / 2 / 2 / 2'
           banner={banner}
           avatar={avatar}
-          name='Adela Parkson'
+          name={JSON.parse(localStorage.getItem('CurrentUserData')).firstName  + " " + JSON.parse(localStorage.getItem('CurrentUserData')).lastName} 
+
           job='Product Designer'
           posts='17'
           followers='9.7k'

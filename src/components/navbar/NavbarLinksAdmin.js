@@ -26,7 +26,13 @@ import { MdNotificationsNone, MdInfoOutline } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
 import routes from "routes.js";
 import { ThemeEditor } from "./ThemeEditor";
+
+
+
 export default function HeaderLinks(props) {
+
+  // <Button onClick={() => window.location.href = "/create/project"} mx='8px'>Create Project</Button>
+
   const { secondary } = props;
   // Chakra Color Mode
   const navbarIcon = useColorModeValue("gray.400", "white");
@@ -52,7 +58,6 @@ export default function HeaderLinks(props) {
       p='10px'
       borderRadius='30px'
       boxShadow={shadow}>
-      <Button onClick={() => window.location.href = "/create/project"} mx='8px'>Create Project</Button>
       <SearchBar
         mb={secondary ? { base: "10px", md: "unset" } : "unset"}
         me='10px'
