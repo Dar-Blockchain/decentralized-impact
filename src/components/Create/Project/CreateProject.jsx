@@ -43,27 +43,30 @@ const CreateProject = () => {
   )
 
   const sendFileToIPFS = async (e) => {
-
+    setFileImg(e.target.files[0])
+    console.log(e)
     if (fileImg) {
         try {
 
             const formData = new FormData();
             formData.append("file", fileImg);
-
+            console.log(process.env)
+            console.log(process.env.API_SECRET)
             const resFile = await axios({
                 method: "post",
                 url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                 data: formData,
                 headers: {
-                    'pinata_api_key': `ecc893f2e822392c57fb`,
-                    'pinata_secret_api_key': `5fde16343f8bce5c3da96c248ff6a8632b8337985169d103975270af5072ada1`,
+                    'pinata_api_key': 'a1172ef17e335f1e93a2',
+                    'pinata_secret_api_key': '',
                     "Content-Type": "multipart/form-data"
                 },
             });
 
             const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
             setProject({...project, descriptionFileUrl: ImgHash })
-         console.log(ImgHash); 
+            
+            console.log(ImgHash);
 //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
 
 
@@ -131,8 +134,7 @@ const CreateProject = () => {
     </FormControl>
     <form >
     <FormLabel>Project Document</FormLabel>
-    <Input display={'flex'} justifyContent='align-items-center' type="file" onChange={(e) =>setFileImg(e.target.files[0])} required />
-    <Button onClick={sendFileToIPFS} >Submit Document</Button>            
+    <Input display={'flex'} justifyContent='align-items-center' type="file" onChange={(e) => sendFileToIPFS(e)} required />
     </form>
         <Select my={'1.5'} placeholder='Select project category'>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
