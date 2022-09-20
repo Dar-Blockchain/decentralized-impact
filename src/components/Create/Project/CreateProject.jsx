@@ -37,8 +37,12 @@ const CreateProject = () => {
         if(window.ethereum){
           window.ethereum.request({method:'eth_requestAccounts'})
           .then(res=>{
-                  // Return the address of the wallet
-                  console.log(res) 
+            console.log(JSON.parse(localStorage.getItem('CurrentUserData')))
+            console.log(JSON.parse(localStorage.getItem('CurrentUserData'))._id)
+            // Return the address of the wallet
+                  axios.post(`https://decentralized-impact.alwaysdata.net/make/communityMember/id:${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`, 
+                  {wallet: res}
+                  )
           })          
         }
         else {
