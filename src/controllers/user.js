@@ -183,7 +183,7 @@ exports.getUsers = (req, res) => {
 exports.makeAdmin = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Admin", wallet: "0x0001" } },
+    { $set: { userType: "Admin", wallet: req.body.wallet} },
     { new: true, upsert: false }
   )
     .then((users) => {
