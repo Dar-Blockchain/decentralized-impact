@@ -24,6 +24,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "ipfs-http-client": "^58.0.0",
+    "metamask-react": "^2.4.0",
     "react": "17.0.2",
     "react-apexcharts": "^1.4.0",
     "react-calendar": "^3.7.0",

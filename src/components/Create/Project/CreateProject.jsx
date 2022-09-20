@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Flex, Button, FormControl,Input, FormHelperText,FormLabel,Box ,Select, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
+import { useEffect } from 'react'
+import { words } from 'lodash'
 
 const CreateProject = () => {
   const [file, setFile] = useState()
@@ -29,6 +31,22 @@ const CreateProject = () => {
       setProject({...project, teamMemberEmails: newArr })
 }
 
+  
+
+      useEffect(() => {
+        if(window.ethereum){
+          window.ethereum.request({method:'eth_requestAccounts'})
+          .then(res=>{
+                  // Return the address of the wallet
+                  console.log(res) 
+          })          
+        }
+        else {
+          window.alert('Install metamask')
+        }
+
+      })
+      
 
   
   const [project, setProject] = useState(
@@ -58,7 +76,7 @@ const CreateProject = () => {
                 data: formData,
                 headers: {
                     'pinata_api_key': 'a1172ef17e335f1e93a2',
-                    'pinata_secret_api_key': '',
+                    'pinata_secret_api_key': '9a58881e52bb27a3690f444adce68bf6308a7e39c92164413b3e35bf3e5f11d4',
                     "Content-Type": "multipart/form-data"
                 },
             });

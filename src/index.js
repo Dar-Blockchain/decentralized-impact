@@ -16,8 +16,6 @@ ReactDOM.render(
         <HashRouter>
         { (localStorage.getItem('userToken') && localStorage.getItem('CurrentUserData')) ? (
           <Switch>
-
-          
           <Route path={`/admin`} component={AdminLayout} />
           <Route path={`/rtl`} component={RTLLayout} />
           <Redirect from='/' to='/admin' />
