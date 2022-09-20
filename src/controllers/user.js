@@ -254,21 +254,22 @@ exports.getUsers = (req, res) => {
 exports.makeAdmin = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Admin", wallet: "0x0001" } },
+    { $set: { userType: "Admin", wallet: req.body.wallet} },
     { new: true, upsert: false }
   )
     .then((users) => {
-      res.status(200).json({ users, message: "changed !" });
+      res.status(200).json({ users , message: "changed !"});
+      console.log(user.userType)
     })
     .catch((error) => {
-      res.satus(400).json({ error });
+      res.satus(400).json({ error, message: "faild" } );
     });
 };
 //-------------------------makeCommunityMember----------------//
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Community", wallet: "0x01" } },
+    { $set: { userType: "Community", wallet: req.body.wallet } },
     { new: true, upsert: false }
   )
     .then((user) => {
