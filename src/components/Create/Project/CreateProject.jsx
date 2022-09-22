@@ -67,9 +67,7 @@ const CreateProject = () => {
   }
   )
 
-  const sendFileToIPFS = async (e) => {
-    setFileImg(e.target.files[0])
-    console.log(e)
+  const sendFileToIPFS = async () => {
     if (fileImg) {
         try {
 
@@ -92,10 +90,6 @@ const CreateProject = () => {
             setProject({...project, descriptionFileUrl: ImgHash })
             
             console.log(ImgHash);
-//Take a look at your Pinata Pinned section, you will see a new file added to you list.   
-
-
-
         } catch (error) {
             console.log("Error sending File to IPFS: ")
             console.log(error)
@@ -160,7 +154,7 @@ const CreateProject = () => {
     </FormControl>
     <form >
     <FormLabel>Project Document</FormLabel>
-    <Input display={'flex'} justifyContent='align-items-center' type="file" onChange={(e) => sendFileToIPFS(e)} required />
+    <Input display={'flex'} justifyContent='align-items-center' type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
     </form>
         <Select my={'1.5'} placeholder='Select project category'>
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='FOOD & HEALTHCARE'>FOOD & HEALTHCARE</option>
@@ -170,7 +164,11 @@ const CreateProject = () => {
           <option onClick={(e) => setProject({...project, category: e.target.value })}  value='CREATIVE INDUSTRIES'>CREATIVE INDUSTRIES</option>
           <option onClick={(e) => setProject({...project, category: e.target.value })} value='SOCIAL & CIVIC TECH'>SOCIAL & CIVIC TECH</option>
         </Select>
-        <Button onClick={postProject} mt='10'>Submit</Button>
+        <Button onClick={() => {
+          postProject()
+          sendFileToIPFS()
+          
+        }} mt='10'>Submit</Button>
     </Flex>
     )}
 
