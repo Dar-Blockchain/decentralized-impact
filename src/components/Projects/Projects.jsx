@@ -133,7 +133,13 @@ return (
   {
     JSON.parse(localStorage.getItem('CurrentUserData')).userType === 'Admin' && (
       <ModalFooter>
-      <Button colorScheme='blue' mr={3} onClick={onClose}>
+      <Button colorScheme='blue' mr={3} onClick={() => {
+        axios.post('http://localhost:3000/project/approve/' + currentProject._id).then((resp) => {
+          onClose()
+          console.log('done')
+          console.log(resp)
+        })
+      }}>
         Approve
       </Button>
       <Button variant='ghost'>Decline</Button>
