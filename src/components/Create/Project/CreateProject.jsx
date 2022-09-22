@@ -87,6 +87,7 @@ const CreateProject = () => {
             });
 
             const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+            
             setProject({...project, descriptionFileUrl: ImgHash })
             
             console.log(ImgHash);

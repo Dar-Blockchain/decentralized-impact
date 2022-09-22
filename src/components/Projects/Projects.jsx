@@ -2,9 +2,24 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Spinner, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Spinner, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
-import ComplexTable from "views/admin/default/components/ComplexTable";
+import { Text } from '@chakra-ui/react'
+import { Badge } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+// import ComplexTable from "views/admin/default/components/ComplexTable";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+
 import {
     Table,
     Thead,
@@ -47,6 +62,7 @@ const Projects = () => {
     const [projects, setProjects] = useState([])
     const [loader, setLoader] = useState(true);
     const [error, setError] = useState('')
+    const [currentProject, setCurrentProject] = useState('')
 
     const getProjects = async () => {
         const resp = await axios.get('http://localhost:3000/project/getprojects')  
@@ -88,6 +104,7 @@ const Projects = () => {
 
 const textColor = useColorModeValue("secondaryGray.900", "white");
 const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+const { isOpen, onOpen, onClose } = useDisclosure()
 
 return (
     <div>
@@ -95,6 +112,30 @@ return (
             loader === true ? (
                 <Spinner />
             ):(
+<><Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+<ModalOverlay />
+<ModalContent>
+  <ModalHeader>{currentProject.title}
+              <Badge ml='1.5' variant='subtle' colorScheme='green' >test</Badge>
+  </ModalHeader>
+  <ModalCloseButton />
+  <ModalBody>
+    <Text fontWeight='bold' mb='1rem'>
+    {currentProject.description}
+    </Text>
+    <Link href={currentProject.descriptionFileUrl} isExternal>
+      Project description <ExternalLinkIcon mx='2px' />
+    </Link>
+    </ModalBody>
+
+  <ModalFooter>
+    <Button colorScheme='blue' mr={3} onClick={onClose}>
+      Approve
+    </Button>
+    <Button variant='ghost'>Decline</Button>
+  </ModalFooter>
+</ModalContent>
+</Modal>
             <Table variant="simple" mt={'84px'}>
                 <TableCaption>Projects</TableCaption>
                 <Thead>
@@ -121,9 +162,11 @@ return (
                 <Tbody>
                 {
                     projects.map((value, index) => {
-                        console.log(value)
                     return (<Tr key={index}>
-                    <Td color={textColor} fontSize='sm' fontWeight='700'>{value.title}</Td>
+                    <Td  onClick={()=>{onOpen()
+                    setCurrentProject(value)
+                    console.log(currentProject)
+                  }}  color={textColor} fontSize='sm' fontWeight='700'>{value.title}</Td>
                     <Td
                     display={'flex'}
                     color={
@@ -167,7 +210,7 @@ return (
                     </Tr>)
                 })}
                 </Tbody>
-                </Table>
+                </Table></>
                 )
             }        
     </div>
