@@ -12,6 +12,7 @@ const CreateProject = () => {
   const [loader, setLoader] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [walletState, setWalletState] = useState(false)
   const addHandler = () => {
     setTeamMembers([...teamMembers, ''])
   }
@@ -40,9 +41,11 @@ const CreateProject = () => {
             console.log(JSON.parse(localStorage.getItem('CurrentUserData')))
             console.log(JSON.parse(localStorage.getItem('CurrentUserData'))._id)
             // Return the address of the wallet
+            if (!(walletState))
                   axios.post(`http://localhost:3000/make/communityMember/id:${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`, 
                   {wallet: res}
                   )
+                  setWalletState(true)
           })          
         }
         else {
@@ -103,6 +106,7 @@ const CreateProject = () => {
 
 
   const postProject = () => {
+    
     setLoader(true)
     axios.post('http://localhost:3000/project/addproject', project).then((resp) => {
       console.log(resp)
