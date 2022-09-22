@@ -63,7 +63,9 @@ const Projects = () => {
     const [loader, setLoader] = useState(true);
     const [error, setError] = useState('')
     const [currentProject, setCurrentProject] = useState('')
-
+    const openInNewTab = url => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    };
     const getProjects = async () => {
         const resp = await axios.get('http://localhost:3000/project/getprojects')  
         setProjects(resp.data.project)
@@ -116,24 +118,29 @@ return (
 <ModalOverlay />
 <ModalContent>
   <ModalHeader>{currentProject.title}
-              <Badge ml='1.5' variant='subtle' colorScheme='green' >test</Badge>
+              <Badge ml='1.5' variant='subtle' colorScheme='green' >{currentProject.state}</Badge>
   </ModalHeader>
   <ModalCloseButton />
   <ModalBody>
     <Text fontWeight='bold' mb='1rem'>
     {currentProject.description}
     </Text>
-    <Link href={currentProject.descriptionFileUrl} isExternal>
-      Project description <ExternalLinkIcon mx='2px' />
-    </Link>
-    </ModalBody>
 
-  <ModalFooter>
-    <Button colorScheme='blue' mr={3} onClick={onClose}>
-      Approve
-    </Button>
-    <Button variant='ghost'>Decline</Button>
-  </ModalFooter>
+    <button onClick={() => openInNewTab(currentProject.descriptionFileUrl)}>
+    Project description <ExternalLinkIcon mx='2px' />
+    </button>
+    </ModalBody>
+  {
+    JSON.parse(localStorage.getItem('CurrentUserData')).userType === 'Admin' && (
+      <ModalFooter>
+      <Button colorScheme='blue' mr={3} onClick={onClose}>
+        Approve
+      </Button>
+      <Button variant='ghost'>Decline</Button>
+    </ModalFooter>
+    )
+  }
+
 </ModalContent>
 </Modal>
             <Table variant="simple" mt={'84px'}>
