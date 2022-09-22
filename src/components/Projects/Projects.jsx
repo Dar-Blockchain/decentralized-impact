@@ -49,7 +49,7 @@ const Projects = () => {
     const [error, setError] = useState('')
 
     const getProjects = async () => {
-        const resp = await axios.get('https://decentralized-impact.alwaysdata.net/project/getprojects')  
+        const resp = await axios.get('http://localhost:3000/project/getprojects')  
         setProjects(resp.data.project)
         console.log(resp)
         console.log('hello')

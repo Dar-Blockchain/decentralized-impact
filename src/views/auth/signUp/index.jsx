@@ -89,7 +89,7 @@ function SignUp() {
       return;
     } else {
       axios
-        .post("https://decentralized-impact.alwaysdata.net/api/signup", {
+        .post("http://localhost:3000/api/signup", {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,

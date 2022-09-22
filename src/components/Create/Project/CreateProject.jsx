@@ -40,7 +40,7 @@ const CreateProject = () => {
             console.log(JSON.parse(localStorage.getItem('CurrentUserData')))
             console.log(JSON.parse(localStorage.getItem('CurrentUserData'))._id)
             // Return the address of the wallet
-                  axios.post(`https://decentralized-impact.alwaysdata.net/make/communityMember/id:${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`, 
+                  axios.post(`http://localhost:3000/make/communityMember/id:${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`, 
                   {wallet: res}
                   )
           })          
@@ -104,7 +104,7 @@ const CreateProject = () => {
 
   const postProject = () => {
     setLoader(true)
-    axios.post('https://decentralized-impact.alwaysdata.net/project/addproject', project).then((resp) => {
+    axios.post('http://localhost:3000/project/addproject', project).then((resp) => {
       console.log(resp)
       setLoader(false)
     }).then((err) => {
