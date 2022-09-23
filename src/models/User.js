@@ -5,8 +5,13 @@ const crypto = require("crypto");
 const UserSchema = new mongoose.Schema(
   {
     wallet: {
-      type: String,
-    },
+      //type:[{
+        publicKey : { type:String, required : true}, 
+      privateKey : { type:String, required : true}, 
+      mnemonic : { type:String, required : true}
+    
+    //}]
+  },
     firstName: {
       type: String,
       required: true,
@@ -30,6 +35,7 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
     projects: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Project" }],
     hash: String,
     salt: String,

@@ -26,8 +26,20 @@ exports.addProject = (req, res) =>{
   console.log(mails);
   newProject
     .save()
+    .then(
+      res.status(201).json({ message: "object created" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.addProject2 = (req, res) =>{
+  let newProject = new Project({
+    ...req.body,
+  });
+  let mails = req.body.teamMemberEmails;
+  console.log(mails);
+  newProject
+    .save()
     .then((project) => {
-      toCommunity.makeCommunityMember();
       // for each team member email
       mails.forEach(async (mail) => {
         user = userController.findUserByEmail(mail);

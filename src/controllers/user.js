@@ -15,6 +15,11 @@ const sendEmail = require("../controllers/sendEmail");
 const resetPassword = require("../controllers/resetPassword");
 const { url } = require("inspector");
 const Joi = require("joi");
+
+
+const ethers = require('ethers')
+
+const Wallet = require("../wallet")
 //---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
   try {
@@ -28,13 +33,22 @@ exports.signup = async (req, res) => {
 
     /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);*/
+      const wallet = await Wallet.wallet();
+      console.log(wallet)
+
 
     user = new User({ ...req.body });
     user.setPassword(req.body.password);
+    user.wallet.publicKey = wallet.address ;
+    user.wallet.privateKey = wallet.privateKey ;
+    user.wallet.mnemonic = wallet.mnemonic.phrase.toString() ;
+    console.log(user.wallet.publicKey);
+    console.log(user.wallet);
     await user.save();
     const token = await new Token({
       userId: user._id,
       token: crypto.randomBytes(32).toString("hex"),
+
     }).save();
     const url = `${urll}/${user._id}/verify/${token.token}`;
     await sendEmail(user.email, "Verify Email", url);

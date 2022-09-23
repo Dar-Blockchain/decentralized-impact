@@ -3,7 +3,7 @@ const { check } = require("express-validator");
 const router = express.Router();
 const projectControleur = require("../controllers/project.js");
 
-router.post("/addProject", projectControleur.addProject);
+router.post("/addProject", projectControleur.addProject2);
 router.get("/getprojects", projectControleur.getAllProjects);
 router.get("/getprojectbyid/:id", projectControleur.getProjectById);
 router.get("/getprojectbytitle/:title", projectControleur.getProjectByTitre);
