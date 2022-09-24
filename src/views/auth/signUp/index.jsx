@@ -1,7 +1,15 @@
 import * as yup from "yup";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+} from '@chakra-ui/react'
 import validator from "validator";
 // Chakra imports
 import {
@@ -30,6 +38,8 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { useFormik } from "formik";
 
 function SignUp() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
   const {
     values,
     handleSubmit,
@@ -131,7 +141,23 @@ function SignUp() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   return (
-
+<>
+<AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Verification Email
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Please Verify Your email before logging in
+            </AlertDialogBody>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     <DefaultAuth illustrationBackground={illustration} image={illustration}>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
@@ -150,15 +176,7 @@ function SignUp() {
           <Heading color={textColor} fontSize="36px" mb="10px">
             Sign up
           </Heading>
-          <Text
-            mb="36px"
-            ms="4px"
-            color={textColorSecondary}
-            fontWeight="400"
-            fontSize="md"
-          >
-            Enter your email and password to sign in!
-          </Text>
+
         </Box>
         <Flex
           zIndex="2"
@@ -373,9 +391,12 @@ function SignUp() {
               w="100%"
               h="50"
               mb="24px"
-              onClick={testLogin}
+              onClick={() => {
+                onOpen()
+                testLogin()
+              }}
             >
-              Sign In
+              Sign up
             </Button>
           </FormControl>
           <Flex
@@ -385,23 +406,11 @@ function SignUp() {
             maxW="100%"
             mt="0px"
           >
-            <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-              Not registered yet?
-              <NavLink to="/auth/sign-in">
-                <Text
-                  color={textColorBrand}
-                  as="span"
-                  ms="5px"
-                  fontWeight="500"
-                >
-                  Create an Account
-                </Text>
-              </NavLink>
-            </Text>
           </Flex>
         </Flex>
       </Flex>
     </DefaultAuth>
+    </>
   );
 }
 
