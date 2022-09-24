@@ -175,7 +175,7 @@ return (
                 <Tbody>
                 {
                     projects.map((value, index) => {
-                    return (<Tr key={index} onClick={()=>{onOpen()
+                    return (<Tr cursor='pointer' key={index} onClick={()=>{onOpen()
                       setCurrentProject(value)
                       console.log(currentProject)
                     }}>
