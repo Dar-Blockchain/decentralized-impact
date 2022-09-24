@@ -175,11 +175,11 @@ return (
                 <Tbody>
                 {
                     projects.map((value, index) => {
-                    return (<Tr key={index}>
-                    <Td  onClick={()=>{onOpen()
-                    setCurrentProject(value)
-                    console.log(currentProject)
-                  }}  color={textColor} fontSize='sm' fontWeight='700'>{value.title}</Td>
+                    return (<Tr key={index} onClick={()=>{onOpen()
+                      setCurrentProject(value)
+                      console.log(currentProject)
+                    }}>
+                    <Td color={textColor} fontSize='sm' fontWeight='700'>{value.title}</Td>
                     <Td
                     display={'flex'}
                     color={
