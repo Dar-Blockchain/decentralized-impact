@@ -97,7 +97,8 @@ function SignIn() {
         }).catch((err) =>
         {
         if (err.code === 'ERR_BAD_REQUEST'){
-          setError("Something Went wrong, Error code: " + err.code)
+          console.log(err)
+          setError(err.response.data.message)
           setLoaderState(false)
         }
         })
