@@ -266,7 +266,12 @@ export default function HeaderLinks(props) {
               color='red.400'
               borderRadius='8px'
               px='14px'>
-              <Text fontSize='sm'>Log out</Text>
+              <Text onClick={() => {
+                localStorage.removeItem('CurrentUserData')
+                localStorage.removeItem('userToken')
+                window.location.href = '/'
+
+              }} fontSize='sm'>Log out</Text>
             </MenuItem>
           </Flex>
         </MenuList>

@@ -41,8 +41,9 @@ function Sidebar(props) {
 
   // SIDEBAR
   return (
-    <Box display={{ sm: "none", xl: "block" }} position='fixed' minH='100%'>
+    <Box  display={{ sm: "none", xl: "block" }} position='fixed' minH='100%'>
       <Box
+        
         bg={sidebarBg}
         transition={variantChange}
         w='300px'
@@ -52,11 +53,12 @@ function Sidebar(props) {
         overflowX='hidden'
         boxShadow={shadow}>
         <Scrollbars
+        
           autoHide
           renderTrackVertical={renderTrack}
           renderThumbVertical={renderThumb}
           renderView={renderView}>
-          <Content routes={routes} />
+          <Content routes={routes}  />
         </Scrollbars>
       </Box>
     </Box>
@@ -89,12 +91,15 @@ export function SidebarResponsive(props) {
         />
       </Flex>
       <Drawer
+      
         isOpen={isOpen}
         onClose={onClose}
         placement={document.documentElement.dir === "rtl" ? "right" : "left"}
         finalFocusRef={btnRef}>
         <DrawerOverlay />
-        <DrawerContent w='285px' maxW='285px' bg={sidebarBackgroundColor}>
+        <DrawerContent 
+        
+        w='285px' maxW='285px' bg={sidebarBackgroundColor}>
           <DrawerCloseButton
             zIndex='3'
             onClose={onClose}
@@ -103,6 +108,7 @@ export function SidebarResponsive(props) {
           />
           <DrawerBody maxW='285px' px='0rem' pb='0'>
             <Scrollbars
+            
               autoHide
               renderTrackVertical={renderTrack}
               renderThumbVertical={renderThumb}
