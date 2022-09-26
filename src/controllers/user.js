@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const community = require("../models/community");
 const bcrypt = require("bcryptjs");
-//const { user } = require("./src/routes/user")
 const crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
@@ -41,16 +40,12 @@ exports.signup = async (req, res) => {
     /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);*/
       const wallet = await Wallet.wallet();
-      //console.log(wallet)
     user = new User({ ...req.body });
     user.setPassword(req.body.password);
     const key = process.env.KEY;
-    console.log(key)
     user.wallet.publicKey = wallet.address ;
     user.wallet.privateKey = aes256.encrypt(key, wallet.privateKey) ;
     user.wallet.mnemonic = aes256.encrypt(key, wallet.mnemonic.phrase.toString()) ;
-    //console.log(user.wallet.publicKey);
-    //console.log(user.wallet);
     await user.save();
     const token = await new Token({
       userId: user._id,
@@ -275,7 +270,7 @@ exports.getUsers = (req, res) => {
 exports.makeAdmin = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Admin", wallet: req.body.wallet} },
+    { $set: { userType: "Admin"} },
     { new: true, upsert: false }
   )
     .then((users) => {
@@ -290,7 +285,7 @@ exports.makeAdmin = (req, res) => {
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Community", wallet: req.body.wallet } },
+    { $set: { userType: "Community"} },
     { new: true, upsert: false }
   )
     .then((user) => {
@@ -301,6 +296,31 @@ exports.makeCommunityMember = (req, res) => {
       res.status(400).json({ error });
     });
 };
+//-------------------------MakeExpert--------------------------//
+exports.makeExpert = (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { userType: "Expert"} },
+    { new: true, upsert: false }
+  )
+    .then((user) => {
+      res.status(200).json({ user });
+      console.log(user.userType);
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
+    });
+}
+
+// ---------------get user by userType----------------//
+exports.userByUserType = (req, res) =>{
+    User.find({ _userType: req.params.userType }).then((User) => {
+      if (!User) {
+        return res.status(400).send("user not found");
+      } else
+        return res.status(200).send({ message: "users found", value: User });
+    });
+}
 //--------------------------signout---------------------------//
 exports.signout = (req, res) => {
   res.clearCookie("token");

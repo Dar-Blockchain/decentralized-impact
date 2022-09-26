@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
       mnemonic : { type:String, required : true}
     
     //}]
-  },
+    },
     firstName: {
       type: String,
       required: true,
@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema(
     },
     userType: {
       type: String,
+      
     },
     created_at: {
       type: Date,
@@ -34,6 +35,9 @@ const UserSchema = new mongoose.Schema(
     verified: {
       type: Boolean,
       default: false,
+    },
+    userType :{
+      type: String,
     },
 
     projects: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Project" }],
