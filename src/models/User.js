@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const options = { discriminatorKey: "usertype" };
 const crypto = require("crypto");
+const { func, boolean } = require("joi");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -30,6 +31,11 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    Image:{
+       type:String,
+       
+
+    },
     hash: String,
     salt: String,
   },
@@ -47,6 +53,7 @@ UserSchema.methods.setPassword = function (password) {
     .toString(`hex`);
 };
 
+
 // Method to check the entered password is correct or not
 UserSchema.methods.validPassword = function (password) {
   var hash = crypto
@@ -54,5 +61,12 @@ UserSchema.methods.validPassword = function (password) {
     .toString(`hex`);
   return this.hash === hash;
 };
-
+UserSchema.methods.generatePassword = function(password){
+  (length = 20,
+  wishlist = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$'
+) =>
+  Array.from(crypto.randomFillSync(new Uint32Array(length)))
+    .map((x) => wishlist[x % wishlist.length])
+    .join('')
+}
 module.exports = mongoose.model("User", UserSchema);

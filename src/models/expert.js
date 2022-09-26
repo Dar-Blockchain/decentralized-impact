@@ -1,28 +1,19 @@
 const mongoose = require("mongoose");
-const User = require("../models/User");
-
+var crypto = require("crypto");
+const user = require("./User");
 const expertSchema = new mongoose.Schema({
-  wallet: {
+  walletPubKey: {
     type: String,
     required: true,
+    unique: true,
   },
+  
+  walletHash: String,
 
-  domain: {
-    type: String,
-    required: true,
-  },
-
-  hourRate: {
-    type: Number,
-    required: true,
-  },
-  Rating: {
-    type: Number,
-    required: true,
-  },
+  walletSalt: String,
 });
 
-var Expert = User.discriminator("Expert", expertSchema);
+var Expert = user.discriminator("Expert", expertSchema);
 
 if (mongoose.models.Expert) {
   Expert = mongoose.model("Expert");
@@ -30,3 +21,4 @@ if (mongoose.models.Expert) {
   Expert = mongoose.model("Expert", expertSchema);
 }
 
+module.exports = Expert;

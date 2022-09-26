@@ -1,23 +1,98 @@
 const expert = require("../models/expert");
+const expertToken = require("../models/expertToken");
+const { url } = require("inspector");
+const inviteExpert = require("./inviteExpert");
+const urll = "http://localhost:5000/expert";
+
+const crypto = require("crypto");
+
 
 //--------------------------ajouter une expert ---------------------------//
-exports.add = (req, res) => {
-  let newexpert = new expert({ ...req.body });
+/*exports.add = (req, res) => {
+  let newExpert = new expert({
+    ...req.body,
+  });
 
-  // Initialize newUser object with request data
+  newExpert
+    .save()
+    .then(() => {
+      res.status(201).json({ message: "newExpert created" });
+    })
+    .catch((error) => res.status(400).json({ error }));
+};*/
+//------------------------create an expert------------------//
+exports.add = async (req, res) => {
+  try {
+    let Newexpert = await expert.findOne(
+      ({ firstName, lastName, email, password } = req.body)
+    );
+    if (Newexpert)
+      return res
+        .status(409)
+        .send({ message: "Expert with given email already Exist!" });
 
-  newexpert.save((err, newexpert) => {
-    if (err) {
-      return res.status(400).json({
-        error: "unable to add expert",
+    /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);*/
+
+    Newexpert = new expert({ ...req.body });
+    Newexpert.firstName = "still waiting";  
+    Newexpert.lastName= "still waiting";  
+     
+    
+   
+    Newexpert.generatePassword (req.body.password);
+    await Newexpert.save();
+    const token = await new expertToken({
+      userId: Newexpert._id,
+      token: crypto.randomBytes(32).toString("hex"),
+    }).save();
+    const url = `${urll}/${Newexpert._id}/signupExpert/${token.token}`;
+    await inviteExpert(Newexpert.email, "signup as an Expert", url);
+    res
+      .status(201)
+      .send({ message: "An Email sent to an expert account " });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+//--------------------------afficher tous les expert  ---------------------------//
+exports.tokenExpert = async (req, res) => {
+  expertToken.findOne({ token: req.params.token }, function (err, token) {
+    if (!token)
+      return res.status(400).send({
+        type: "not-exist",
+        msg: `We were unable to find a valid token.Your token my have expired.`,
       });
-    }
-    return res.json({
-      message: "sucsess",
-      newexpert,
+
+    // If we found a token, find a matching user
+    expert.findOne({ _id: token.userId }, function (err, Expert) {
+      if (!Expert)
+        return res
+          .status(400)
+          .send({ msg: "We were unable to find a user for this token." });
+     
+
+      // Verify and save the user
+      
+      Expert.password = req.body.password;
+      Expert.setPassword(req.body.password);
+      Expert.firstName=req.body.firstName;
+      Expert.lastName=req.body.lastName;
+      Expert.verified = true;  
+     
+    
+      Expert.save(function (err) {
+        if (err) {
+          return res.status(500).send({ msg: err.message });
+        }
+        res.status(200).send("your account is valid. Please login.");
+      });
     });
   });
-};
+        };
+
 //--------------------------afficher tous les expert  ---------------------------//
 exports.show = (req, res) => {
   expert

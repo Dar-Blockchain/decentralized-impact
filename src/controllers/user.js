@@ -215,5 +215,16 @@ exports.signout = (req, res) => {
     message: "user signout",
   });
 };
-
+//--------------------------updateProfile---------------------------//
+exports.updateProfile=(req,res)=>{
+  User
+  .findByIdAndUpdate(
+    { _id: req.params.id },
+    { ...req.body,
+      image:`${req.protocol}://${req.get('urll')}/images/${req.file.filename}`,
+       _id: req.params.id }
+  )
+  .then(() => res.status(200).json({ message: "account modified" }))
+  .catch((error) => res.status(400).json({ error }));
+};
 
