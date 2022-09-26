@@ -44,7 +44,6 @@ import {
 import { HSeparator } from "components/separator/Separator";
 import DefaultAuth from "layouts/auth/Default";
 // Assets
-import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
@@ -108,7 +107,7 @@ function SignIn() {
 
 
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <DefaultAuth illustrationBackground={process.env.PUBLIC_URL + "/Assets/Bg.svg"} image={process.env.PUBLIC_URL + "/Assets/Bg.svg"}>
     {loader === true ? (
       <Flex width={'96'} my="auto" alignItems={'center'} justifyContent='center' >
         <Spinner />
