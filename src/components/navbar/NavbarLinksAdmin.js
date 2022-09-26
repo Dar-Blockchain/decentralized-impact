@@ -270,7 +270,6 @@ export default function HeaderLinks(props) {
                 localStorage.removeItem('CurrentUserData')
                 localStorage.removeItem('userToken')
                 window.location.href = '/'
-
               }} fontSize='sm'>Log out</Text>
             </MenuItem>
           </Flex>
