@@ -3,7 +3,7 @@ const Project = require("../models/project");
 const userController = require("../controllers/user");
 const sendEmail = require("../controllers/sendEmail");
 var router = express.Router();
-const toCommunity = require("./user")
+const toCommunity = require("./user");
 
 exports.getAllProjects = (req, res) => {
   Project.find({}).then((project) => {
@@ -18,7 +18,20 @@ exports.getAllProjects = (req, res) => {
   });
 };
 
-exports.addProject = (req, res) =>{
+exports.addProject = (req, res) => {
+  let newProject = new Project({
+    ...req.body,
+  });
+
+  newProject
+    .save()
+    .then((project) => {
+      res.status(201).json({ project });
+    })
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.addProject2 = (req, res) => {
   let newProject = new Project({
     ...req.body,
   });
@@ -59,6 +72,7 @@ exports.addProject2 = (req, res) =>{
     })
     .catch((error) => res.status(400).json({ error }));
 };
+
 exports.getProjectById = (req, res) => {
   Project.findOne({ _id: req.params.id }).then((project) => {
     if (!project) {
