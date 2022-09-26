@@ -8,7 +8,7 @@ var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 const Token = require("../models/Token");
 const urll = "http://localhost:3000/api";
-
+var aes256 = require('aes256');
 const resetToken = require("../models/resetToken");
 
 const sendEmail = require("../controllers/sendEmail");
@@ -20,6 +20,13 @@ const Joi = require("joi");
 const ethers = require('ethers')
 
 const Wallet = require("../wallet")
+require('dotenv').config();
+
+function decrypt () {
+  var decrypt = aes256.decrypt(key, wallet.privateKey);
+  var decrypt = aes256.decrypt(key, wallet.mnemonic.phrase.toString());
+  return decrypt
+}
 //---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
   try {
@@ -34,16 +41,16 @@ exports.signup = async (req, res) => {
     /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);*/
       const wallet = await Wallet.wallet();
-      console.log(wallet)
-
-
+      //console.log(wallet)
     user = new User({ ...req.body });
     user.setPassword(req.body.password);
+    const key = process.env.KEY;
+    console.log(key)
     user.wallet.publicKey = wallet.address ;
-    user.wallet.privateKey = wallet.privateKey ;
-    user.wallet.mnemonic = wallet.mnemonic.phrase.toString() ;
-    console.log(user.wallet.publicKey);
-    console.log(user.wallet);
+    user.wallet.privateKey = aes256.encrypt(key, wallet.privateKey) ;
+    user.wallet.mnemonic = aes256.encrypt(key, wallet.mnemonic.phrase.toString()) ;
+    //console.log(user.wallet.publicKey);
+    //console.log(user.wallet);
     await user.save();
     const token = await new Token({
       userId: user._id,

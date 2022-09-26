@@ -1,8 +1,8 @@
-const expert = require("../models/expert");
-
+const Expert = require("../models/expert");
+const User = require("../models/User")
 //--------------------------ajouter une expert ---------------------------//
 exports.add = (req, res) => {
-  let newexpert = new expert({ ...req.body });
+  let newexpert = new Expert({ ...req.body });
 
   // Initialize newUser object with request data
 
