@@ -6,7 +6,12 @@ const { func, boolean } = require("joi");
 const UserSchema = new mongoose.Schema(
   {
     wallet: {
-      type: String,
+      //type:[{
+        publicKey : { type:String, required : true}, 
+      privateKey : { type:String, required : true}, 
+      mnemonic : { type:String, required : true}
+    
+    //}]
     },
     firstName: {
       type: String,
@@ -22,6 +27,7 @@ const UserSchema = new mongoose.Schema(
     },
     userType: {
       type: String,
+      
     },
     created_at: {
       type: Date,
@@ -31,14 +37,23 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+<<<<<<< HEAD
     Image:{
        type:String,
        
 
     },
+=======
+    userType :{
+      type: String,
+    },
+
+    projects: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Project" }],
+>>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
     hash: String,
     salt: String,
   },
+
   options
 );
 

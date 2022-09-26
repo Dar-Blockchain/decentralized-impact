@@ -2,14 +2,10 @@ const mongoose = require("mongoose");
 var crypto = require("crypto");
 const user = require("./User");
 const AdminSchema = new mongoose.Schema({
-  walletPubKey: {
+  wallet: {
     type: String,
     required: true,
     unique: true,
-  },
-  role: {
-    type: String,
-    required: true,
   },
   walletHash: String,
 

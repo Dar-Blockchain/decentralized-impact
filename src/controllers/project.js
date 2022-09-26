@@ -1,27 +1,9 @@
 var express = require("express");
 const Project = require("../models/project");
+const userController = require("../controllers/user");
+const sendEmail = require("../controllers/sendEmail");
 var router = express.Router();
-//const multer = require("multer");
-
-/*const Storage = multer.diskStorage({
-    destination: 'uploads',
-    filename: (req,file,cb) =>{
-        cb(null,file.originalname);
-    }
-});
-const avatar  = multer({
-    storage: Storage,
-    limits: {
-        fileSize: 2000000,
-    },
-    fileFilter(req,file,cb){
-        if(!file.originalname.match(/\.(pdf|text)$/)) 
-        {
-            return cb(new  Error('this is not the correct format of file'));
-        }
-        cb(undefined,true)
-    }
-});*/
+const toCommunity = require("./user");
 
 exports.getAllProjects = (req, res) => {
   Project.find({}).then((project) => {
@@ -43,31 +25,54 @@ exports.addProject = (req, res) => {
 
   newProject
     .save()
-    .then(() => {
+    .then((project) => {
+      res.status(201).json({ project });
+    })
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.addProject2 = (req, res) => {
+  let newProject = new Project({
+    ...req.body,
+  });
+  let mails = req.body.teamMemberEmails;
+  console.log(mails);
+  newProject
+    .save()
+    .then(
+      res.status(201).json({ message: "object created" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.addProject2 = (req, res) =>{
+  let newProject = new Project({
+    ...req.body,
+  });
+  let mails = req.body.teamMemberEmails;
+  console.log(mails);
+  newProject
+    .save()
+    .then((project) => {
+      // for each team member email
+      mails.forEach(async (mail) => {
+        user = userController.findUserByEmail(mail);
+        console.log(user);
+        // if user has an account
+        if (user) {
+          await sendEmail(mail, "You have been added to a project", "Link");
+          // add this user to project and add project to user
+          user.projects.push(project._id);
+        } else {
+          console.log("mch mawjoud");
+          console.log(mail);
+        }
+      });
+
       res.status(201).json({ message: "object created" });
     })
     .catch((error) => res.status(400).json({ error }));
 };
-/*
-router.post('/uploadPhotos/:id',avatar.single('upload'),async(req,res) =>{
-    const photo = req.file.buffer;
-    const id = req.params.id;
-    const projMgt  = new projectManaggement();
-    projMgt.addPhoto(id,photo).then((resp) =>{
-        if(resp == null){
-            res.status(404).send("project not found");
-        }
-        else if(!resp) {
-            return res.status(400).send( {
-                message : "project not found",
-                value: resp
-            });
-        }
-        else {
-            return res.status(200).send({message :" upload photos succeed ", value: resp});
-        }
-    });
-});*/
+
 exports.getProjectById = (req, res) => {
   Project.findOne({ _id: req.params.id }).then((project) => {
     if (!project) {

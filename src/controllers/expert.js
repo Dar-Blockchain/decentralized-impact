@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const expert = require("../models/expert");
 const expertToken = require("../models/expertToken");
 const { url } = require("inspector");
@@ -12,6 +13,13 @@ const crypto = require("crypto");
   let newExpert = new expert({
     ...req.body,
   });
+=======
+const Expert = require("../models/expert");
+const User = require("../models/User")
+//--------------------------ajouter une expert ---------------------------//
+exports.add = (req, res) => {
+  let newexpert = new Expert({ ...req.body });
+>>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
 
   newExpert
     .save()
