@@ -55,12 +55,14 @@ exports.addProject2 = (req, res) =>{
     .then((project) => {
       // for each team member email
       mails.forEach(async (mail) => {
-        user = userController.findUserByEmail(mail);
+        user = await userController.findUserByEmail(mail);
         console.log(user);
         // if user has an account
         if (user) {
+          console.log(user);
           await sendEmail(mail, "You have been added to a project", "Link");
           // add this user to project and add project to user
+
           user.projects.push(project._id);
         } else {
           console.log("mch mawjoud");
@@ -70,7 +72,7 @@ exports.addProject2 = (req, res) =>{
 
       res.status(201).json({ message: "object created" });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(400).json({ error: error }));
 };
 
 exports.getProjectById = (req, res) => {
@@ -108,7 +110,10 @@ exports.deleted = (req, res) => {
 // TODO send an email to the user that says that his project has been confirmed
 exports.approveProject = (req, res) => {
   Project.findOneAndUpdate({ _id: req.params.id }, { isConfirmed: true })
-    .then(() => res.status(200).json({ message: "Project approved" }))
+    .then(() => {
+      //await sendEmail()
+      res.status(200).json({ message: "Project approved" });
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -132,4 +137,10 @@ exports.getAllConfirmedProjects = (req, res) => {
   Project.find({ isConfirmed: true })
     .then((projects) => res.status(200).json({ projects }))
     .catch((error) => res.status(400).json({ error }));
+};
+
+exports.deleteAllProjects = (req, res) => {
+  Project.deleteMany({}).then(() => {
+    res.status(200).json({ message: "deleted" });
+  });
 };

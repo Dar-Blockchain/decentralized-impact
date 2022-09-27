@@ -7,7 +7,7 @@ var expressJwt = require("express-jwt");
 const { body } = require("express-validator");
 const Token = require("../models/Token");
 const urll = "http://localhost:3000/api";
-var aes256 = require('aes256');
+var aes256 = require("aes256");
 const resetToken = require("../models/resetToken");
 
 const sendEmail = require("../controllers/sendEmail");
@@ -15,16 +15,15 @@ const resetPassword = require("../controllers/resetPassword");
 const { url } = require("inspector");
 const Joi = require("joi");
 
+const ethers = require("ethers");
 
-const ethers = require('ethers')
+const Wallet = require("../wallet");
+require("dotenv").config();
 
-const Wallet = require("../wallet")
-require('dotenv').config();
-
-function decrypt () {
+function decrypt() {
   var decrypt = aes256.decrypt(key, wallet.privateKey);
   var decrypt = aes256.decrypt(key, wallet.mnemonic.phrase.toString());
-  return decrypt
+  return decrypt;
 }
 //---------------------signup-------------------------------//
 exports.signup = async (req, res) => {
@@ -39,18 +38,20 @@ exports.signup = async (req, res) => {
 
     /*const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);*/
-      const wallet = await Wallet.wallet();
+    const wallet = await Wallet.wallet();
     user = new User({ ...req.body });
     user.setPassword(req.body.password);
     const key = process.env.KEY;
-    user.wallet.publicKey = wallet.address ;
-    user.wallet.privateKey = aes256.encrypt(key, wallet.privateKey) ;
-    user.wallet.mnemonic = aes256.encrypt(key, wallet.mnemonic.phrase.toString()) ;
+    user.wallet.publicKey = wallet.address;
+    user.wallet.privateKey = aes256.encrypt(key, wallet.privateKey);
+    user.wallet.mnemonic = aes256.encrypt(
+      key,
+      wallet.mnemonic.phrase.toString()
+    );
     await user.save();
     const token = await new Token({
       userId: user._id,
       token: crypto.randomBytes(32).toString("hex"),
-
     }).save();
     const url = `${urll}/${user._id}/verify/${token.token}`;
     await sendEmail(user.email, "Verify Email", url);
@@ -270,22 +271,22 @@ exports.getUsers = (req, res) => {
 exports.makeAdmin = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Admin"} },
+    { $set: { userType: "Admin" } },
     { new: true, upsert: false }
   )
     .then((users) => {
-      res.status(200).json({ users , message: "changed !"});
-      console.log(user.userType)
+      res.status(200).json({ users, message: "changed !" });
+      console.log(user.userType);
     })
     .catch((error) => {
-      res.satus(400).json({ error, message: "faild" } );
+      res.satus(400).json({ error, message: "faild" });
     });
 };
 //-------------------------makeCommunityMember----------------//
 exports.makeCommunityMember = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Community"} },
+    { $set: { userType: "Community" } },
     { new: true, upsert: false }
   )
     .then((user) => {
@@ -300,7 +301,7 @@ exports.makeCommunityMember = (req, res) => {
 exports.makeExpert = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: { userType: "Expert"} },
+    { $set: { userType: "Expert" } },
     { new: true, upsert: false }
   )
     .then((user) => {
@@ -310,17 +311,16 @@ exports.makeExpert = (req, res) => {
     .catch((error) => {
       res.status(400).json({ error });
     });
-}
+};
 
 // ---------------get user by userType----------------//
-exports.userByUserType = (req, res) =>{
-    User.find({ _userType: req.params.userType }).then((User) => {
-      if (!User) {
-        return res.status(400).send("user not found");
-      } else
-        return res.status(200).send({ message: "users found", value: User });
-    });
-}
+exports.userByUserType = (req, res) => {
+  User.find({ userType: req.params.userType }).then((User) => {
+    if (!User) {
+      return res.status(400).send("user not found");
+    } else return res.status(200).send({ message: "users found", value: User });
+  });
+};
 //--------------------------signout---------------------------//
 exports.signout = (req, res) => {
   res.clearCookie("token");
@@ -328,19 +328,19 @@ exports.signout = (req, res) => {
     message: "user signout",
   });
 };
-<<<<<<< HEAD
 //--------------------------updateProfile---------------------------//
-exports.updateProfile=(req,res)=>{
-  User
-  .findByIdAndUpdate(
+exports.updateProfile = (req, res) => {
+  User.findByIdAndUpdate(
     { _id: req.params.id },
-    { ...req.body,
-      image:`${req.protocol}://${req.get('urll')}/images/${req.file.filename}`,
-       _id: req.params.id }
+    {
+      ...req.body,
+      image: `${req.protocol}://${req.get("urll")}/images/${req.file.filename}`,
+      _id: req.params.id,
+    }
   )
-  .then(() => res.status(200).json({ message: "account modified" }))
-  .catch((error) => res.status(400).json({ error }));
-=======
+    .then(() => res.status(200).json({ message: "account modified" }))
+    .catch((error) => res.status(400).json({ error }));
+};
 
 exports.findUserByEmail = (email) => {
   User.findOne({ email: email })
@@ -350,7 +350,6 @@ exports.findUserByEmail = (email) => {
     .catch((error) => {
       console.log(error);
     });
->>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
 };
 
 // 6313aab62754f7fdf6e84bbe

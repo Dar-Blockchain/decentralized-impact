@@ -6,11 +6,7 @@ var cookieParser = require("cookie-parser");
 require("dotenv").config();
 //require("dotenv").config();
 
-<<<<<<< HEAD
-const port = process.env.PORT ||5000 ;
-=======
 const port = process.env.PORT || 3000;
->>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
 
 //import route
 const userRoutes = require("./src/routes/user");

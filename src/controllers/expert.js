@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const expert = require("../models/expert");
 const expertToken = require("../models/expertToken");
 const { url } = require("inspector");
@@ -7,19 +6,11 @@ const urll = "http://localhost:5000/expert";
 
 const crypto = require("crypto");
 
-
 //--------------------------ajouter une expert ---------------------------//
 /*exports.add = (req, res) => {
   let newExpert = new expert({
     ...req.body,
   });
-=======
-const Expert = require("../models/expert");
-const User = require("../models/User")
-//--------------------------ajouter une expert ---------------------------//
-exports.add = (req, res) => {
-  let newexpert = new Expert({ ...req.body });
->>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
 
   newExpert
     .save()
@@ -43,12 +34,10 @@ exports.add = async (req, res) => {
     const hashPassword = await bcrypt.hash(req.body.password, salt);*/
 
     Newexpert = new expert({ ...req.body });
-    Newexpert.firstName = "still waiting";  
-    Newexpert.lastName= "still waiting";  
-     
-    
-   
-    Newexpert.generatePassword (req.body.password);
+    Newexpert.firstName = "still waiting";
+    Newexpert.lastName = "still waiting";
+
+    Newexpert.generatePassword(req.body.password);
     await Newexpert.save();
     const token = await new expertToken({
       userId: Newexpert._id,
@@ -56,9 +45,7 @@ exports.add = async (req, res) => {
     }).save();
     const url = `${urll}/${Newexpert._id}/signupExpert/${token.token}`;
     await inviteExpert(Newexpert.email, "signup as an Expert", url);
-    res
-      .status(201)
-      .send({ message: "An Email sent to an expert account " });
+    res.status(201).send({ message: "An Email sent to an expert account " });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
@@ -80,17 +67,15 @@ exports.tokenExpert = async (req, res) => {
         return res
           .status(400)
           .send({ msg: "We were unable to find a user for this token." });
-     
 
       // Verify and save the user
-      
+
       Expert.password = req.body.password;
       Expert.setPassword(req.body.password);
-      Expert.firstName=req.body.firstName;
-      Expert.lastName=req.body.lastName;
-      Expert.verified = true;  
-     
-    
+      Expert.firstName = req.body.firstName;
+      Expert.lastName = req.body.lastName;
+      Expert.verified = true;
+
       Expert.save(function (err) {
         if (err) {
           return res.status(500).send({ msg: err.message });
@@ -99,7 +84,7 @@ exports.tokenExpert = async (req, res) => {
       });
     });
   });
-        };
+};
 
 //--------------------------afficher tous les expert  ---------------------------//
 exports.show = (req, res) => {

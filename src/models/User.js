@@ -7,11 +7,11 @@ const UserSchema = new mongoose.Schema(
   {
     wallet: {
       //type:[{
-        publicKey : { type:String, required : true}, 
-      privateKey : { type:String, required : true}, 
-      mnemonic : { type:String, required : true}
-    
-    //}]
+      publicKey: { type: String, required: true },
+      privateKey: { type: String, required: true },
+      mnemonic: { type: String, required: true },
+
+      //}]
     },
     firstName: {
       type: String,
@@ -27,7 +27,6 @@ const UserSchema = new mongoose.Schema(
     },
     userType: {
       type: String,
-      
     },
     created_at: {
       type: Date,
@@ -37,19 +36,14 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-<<<<<<< HEAD
-    Image:{
-       type:String,
-       
-
+    Image: {
+      type: String,
     },
-=======
-    userType :{
+    userType: {
       type: String,
     },
 
     projects: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Project" }],
->>>>>>> ca998f7987e5b06467a3dd76941eb796128f2a4e
     hash: String,
     salt: String,
   },
@@ -68,7 +62,6 @@ UserSchema.methods.setPassword = function (password) {
     .toString(`hex`);
 };
 
-
 // Method to check the entered password is correct or not
 UserSchema.methods.validPassword = function (password) {
   var hash = crypto
@@ -76,12 +69,13 @@ UserSchema.methods.validPassword = function (password) {
     .toString(`hex`);
   return this.hash === hash;
 };
-UserSchema.methods.generatePassword = function(password){
-  (length = 20,
-  wishlist = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$'
-) =>
-  Array.from(crypto.randomFillSync(new Uint32Array(length)))
-    .map((x) => wishlist[x % wishlist.length])
-    .join('')
-}
+UserSchema.methods.generatePassword = function (password) {
+  (
+    length = 20,
+    wishlist = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$"
+  ) =>
+    Array.from(crypto.randomFillSync(new Uint32Array(length)))
+      .map((x) => wishlist[x % wishlist.length])
+      .join("");
+};
 module.exports = mongoose.model("User", UserSchema);
