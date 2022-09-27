@@ -4,7 +4,7 @@ import Card from "components/card/Card.js";
 import React from "react";
 
 export default function Banner(props) {
-  const { banner, avatar, name, job, posts, followers, following } = props;
+  const { banner, avatar, name, job, posts, followers, following, action } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "gray.400";
@@ -15,6 +15,7 @@ export default function Banner(props) {
   return (
     <Card mb={{ base: "0px", lg: "20px" }} align='center'>
       <Box
+        
         bg={`url(${banner})`}
         bgSize='cover'
         borderRadius='16px'
@@ -30,7 +31,7 @@ export default function Banner(props) {
         border='4px solid'
         borderColor={borderColor}
       />
-      <Text color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
+      <Text onClick={action} cursor={'pointer'} color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
         {name}
       </Text>
       <Text color={textColorSecondary} fontSize='sm'>

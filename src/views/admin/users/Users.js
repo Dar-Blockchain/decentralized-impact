@@ -1,11 +1,22 @@
 import React from 'react'
 import Banner from "../../../views/admin/profile/components/Banner"
-import { Flex, Spinner, Box } from '@chakra-ui/react'
+import { Flex, Spinner, Box, Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { useDisclosure } from '@chakra-ui/react'
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from '@chakra-ui/react'
+  
 const Users = () => {
-
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const [users, setUsers] = useState()
     const [usersType, setUserType] = useState('')
     const [loaderState, setLoaderState] = useState(true)
@@ -43,6 +54,23 @@ const Users = () => {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>Modal Title</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        content Test 
+      </ModalBody>
+
+      <ModalFooter>
+        <Button colorScheme='blue' mr={3} onClick={onClose}>
+          Close
+        </Button>
+        <Button variant='ghost'>Secondary Action</Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
     <Flex
     direction={'column'}
     templateColumns={{
@@ -58,12 +86,12 @@ const Users = () => {
             users.map(
                 (user, index) => {
                     return (
-                        <Banner 
+                        <Banner
+                        action={onOpen}
+                        cursor='pointer'
                         key={index}
                         name= {user.firstName + " " + user.lastName}
-                        job={user.usertype}
-                       
-                       
+                        job={user.usertype}      
                         />                     
                 )
             })
