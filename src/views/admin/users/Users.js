@@ -17,8 +17,11 @@ const Users = () => {
         axios.get("http://localhost:3000/api/",
         {
             headers: {
-                Authorization: `${localStorage.getItem('userToken')}`
-            }
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('userToken'))}`,
+            //     token: `${JSON.parse(localStorage.getItem('userToken'))}`,
+            //     userId: `${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`
+             
+        }
         }).then((res) => {
             setUsers(res)
             setLoaderState(false)
