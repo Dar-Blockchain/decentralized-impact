@@ -1,6 +1,6 @@
 import React from 'react'
-import Banner from 'components/card/Mastercard'
-import { Flex, Spinner } from '@chakra-ui/react'
+import Banner from "../../../views/admin/profile/components/Banner"
+import { Flex, Spinner, Box } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -23,7 +23,7 @@ const Users = () => {
              
         }
         }).then((res) => {
-            setUsers(res)
+            setUsers(res.data.users)
             setLoaderState(false)
             console.log(users)
           }).catch((err) => {
@@ -42,23 +42,38 @@ const Users = () => {
 
 
   return (
-    <Flex direction={'column'}>
-        <Flex>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Flex
+    direction={'column'}
+    templateColumns={{
+        base: "2fr",
+        lg: "1.34fr 1fr 1.62fr",
+      }}
+      templateRows={{
+        base: "repeat(3, 1fr)",
+        lg: "1fr",
+      }}
+      gap={{ base: "20px", xl: "20px" }}>
         {users ? (
-           <Banner 
-           name="tessst"
-           job='test'
-          posts='17'
-          followers='9.7k'
-          following='274'
-           /> 
+            users.map(
+                (user, index) => {
+                    return (
+                        <Banner 
+                        key={index}
+                        name= {user.firstName + " " + user.lastName}
+                        job={user.usertype}
+                       
+                       
+                        />                     
+                )
+            })
         ):(
             <>
             {error === true ? (<h1>errMessage</h1>):(<Spinner/>)}
             </>
             )}
         </Flex>
-    </Flex>
+    </Box>
   )
 }
 
