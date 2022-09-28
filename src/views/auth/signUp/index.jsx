@@ -158,7 +158,7 @@ function SignUp() {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <DefaultAuth illustrationBackground={process.env.PUBLIC_URL + "/Assets/Bg.svg"} image={process.env.PUBLIC_URL + "/Assets/Bg.svg"}>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w="100%"

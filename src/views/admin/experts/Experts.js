@@ -14,6 +14,7 @@ import {
     ModalBody,
     ModalCloseButton,
   } from '@chakra-ui/react'
+import { Calendar } from 'react-calendar'
   
 const Experts = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -62,7 +63,7 @@ const Experts = () => {
             <Button mr={3}  variant='ghost' onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme='blue' >Book a meeting</Button>
+            <Button colorScheme='blue' onClick={() => {setModalState('bookmeeting')}} >Book a meeting</Button>
           </ModalFooter>
         </ModalContent>
     
@@ -71,14 +72,14 @@ const Experts = () => {
     <ModalContent>
       <ModalCloseButton />
       <ModalBody>
-        expert description placeholder
+        <Calendar />
       </ModalBody>
 
       <ModalFooter>
         <Button mr={3}  variant='ghost' onClick={onClose}>
           Close
         </Button>
-        <Button colorScheme='blue' >Book a meeting</Button>
+        <Button colorScheme='blue' >Submit</Button>
       </ModalFooter>
     </ModalContent>
       )
