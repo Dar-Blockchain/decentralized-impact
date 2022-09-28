@@ -15,15 +15,12 @@ import {
     ModalCloseButton,
   } from '@chakra-ui/react'
   
-const Users = () => {
+const Experts = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [users, setUsers] = useState()
-    const [currentExpert, setCurrentExpert] = useState()
-    const [usersType, setUserType] = useState('')
-    const [loaderState, setLoaderState] = useState(true)
+    const [currentExpert, setCurrentExpert] = useState({firstName: ''})
     const [error, setError] = useState(false)
-    const [errMessage, setErrMessage] = useState('')
-
+    const [modalState, setModalState] = useState('default')
     useEffect(() => {
       if (!(users)){
         axios.get("http://localhost:3000/api/",
@@ -32,15 +29,12 @@ const Users = () => {
             authorization: `Bearer ${JSON.parse(localStorage.getItem('userToken'))}`,
             //     token: `${JSON.parse(localStorage.getItem('userToken'))}`,
             //     userId: `${JSON.parse(localStorage.getItem('CurrentUserData'))._id}`
-             
         }
         }).then((res) => {
             setUsers(res.data.users)
-            setLoaderState(false)
-            console.log(users)
-          }).catch((err) => {
-
-            console.log('holaaa')
+                      }).catch((err) => {
+            setError(true)
+            console.error(err)
           })
       }
     
@@ -53,7 +47,44 @@ const Users = () => {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    {
+      modalState === "default" ? (
+        <ModalContent>
+        <ModalHeader>{currentExpert.firstName}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            expert description placeholder
+          </ModalBody>
+    
+          <ModalFooter>
+            <Button mr={3}  variant='ghost' onClick={onClose}>
+              Close
+            </Button>
+            <Button colorScheme='blue' >Book a meeting</Button>
+          </ModalFooter>
+        </ModalContent>
+    
+      ):(
+ 
+    <ModalContent>
+      <ModalCloseButton />
+      <ModalBody>
+        expert description placeholder
+      </ModalBody>
 
+      <ModalFooter>
+        <Button mr={3}  variant='ghost' onClick={onClose}>
+          Close
+        </Button>
+        <Button colorScheme='blue' >Book a meeting</Button>
+      </ModalFooter>
+    </ModalContent>
+      )
+    }
+
+  </Modal>
     <Flex
     direction={'column'}
     templateColumns={{
@@ -68,15 +99,24 @@ const Users = () => {
         {users ? (
             users.map(
                 (user, index) => {
-
+                    if (user.usertype === "Expert")
+                    {
                         return (
                             <Banner
+                            action={
+                              () => {
+                                setCurrentExpert(user)
+                                onOpen()
+                              }
+                            }
+                            onClick={() => console.log(user)}
                             cursor='pointer'
                             key={index}
                             name= {user.firstName + " " + user.lastName}
                             job={user.usertype}      
                             />                     
                     )
+                    }
 
             })
         ):(
@@ -89,4 +129,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Experts

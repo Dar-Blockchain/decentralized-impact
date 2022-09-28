@@ -21,6 +21,7 @@ import Projects from "components/Projects/Projects";
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
 import SignUpCentered from "views/auth/signUp";
+import Experts from "views/admin/experts/Experts";
 const routes = [
   {
     name: "Main Dashboard",
@@ -51,7 +52,7 @@ const routes = [
     component: Projects,
   },
   {
-    name: "Discover experts",
+    name: "Discover Users",
     layout: "/admin",
     path: "/users",
     icon: (
@@ -63,6 +64,21 @@ const routes = [
       />
     ),
     component: Users,
+    secondary: true,
+  },
+  {
+    name: "Discover experts",
+    layout: "/admin",
+    path: "/experts",
+    icon: (
+      <Icon
+        as={MdOutlineShoppingCart}
+        width='20px'
+        height='20px'
+        color='inherit'
+      />
+    ),
+    component: Experts,
     secondary: true,
   },
   {
