@@ -85,6 +85,7 @@ const Users = () => {
         {users ? (
             users.map(
                 (user, index) => {
+                    if (user.usertype === "Expert")
                     return (
                         <Banner
                         action={onOpen}
