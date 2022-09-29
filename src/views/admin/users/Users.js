@@ -24,14 +24,19 @@ import {
     MenuOptionGroup,
     MenuDivider,
   } from '@chakra-ui/react'
+  import { useCheckboxGroup } from '@chakra-ui/react'
+
 const Users = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [users, setUsers] = useState()
     const [currentExpert, setCurrentExpert] = useState()
-    const [usersType, setUserType] = useState('')
+    const [usersType, setUserType] = useState(["Expert","Commuinitymemeber","Projectholder", ""])
     const [loaderState, setLoaderState] = useState(true)
     const [error, setError] = useState(false)
     const [errMessage, setErrMessage] = useState('')
+  const { value, getCheckboxProps } = useCheckboxGroup({
+    defaultValue: ['Expert'],
+  })
 
     useEffect(() => {
       if (!(users)){
@@ -79,12 +84,7 @@ const Users = () => {
         Filter
       </MenuButton>
       <MenuList minWidth='240px'>
-        <MenuOptionGroup defaultValue='asc' title='Order' type='radio'>
-          <MenuItemOption value='asc'>Ascending</MenuItemOption>
-          <MenuItemOption value='desc'>Descending</MenuItemOption>
-        </MenuOptionGroup>
-        <MenuDivider />
-        <MenuOptionGroup title='Type' type='checkbox'>
+      <MenuOptionGroup onChange={(e)=>{setUserType(e)}} title='Type' type='checkbox'>
           <MenuItemOption value='Expert'>Expert</MenuItemOption>
           <MenuItemOption value='Commuinitymemeber'>Commuinity memeber</MenuItemOption>
           <MenuItemOption value='Projectholder'>Project holder</MenuItemOption>
@@ -94,7 +94,7 @@ const Users = () => {
         {users ? (
             users.map(
                 (user, index) => {
-
+                        if (usersType.includes(user.usertype))
                         return (
                             <Banner
                             cursor='pointer'
