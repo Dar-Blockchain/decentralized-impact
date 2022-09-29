@@ -79,7 +79,7 @@ const Experts = () => {
         <Button mr={3}  variant='ghost' onClick={onClose}>
           Close
         </Button>
-        <Button colorScheme='blue' >Submit</Button>
+        <Button colorScheme='blue' onClick={onClose} >Submit</Button>
       </ModalFooter>
     </ModalContent>
       )
@@ -97,6 +97,7 @@ const Experts = () => {
         lg: "1fr",
       }}
       gap={{ base: "20px", xl: "20px" }}>
+
         {users ? (
             users.map(
                 (user, index) => {

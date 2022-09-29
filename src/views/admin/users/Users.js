@@ -14,7 +14,16 @@ import {
     ModalBody,
     ModalCloseButton,
   } from '@chakra-ui/react'
-  
+  import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+  } from '@chakra-ui/react'
 const Users = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [users, setUsers] = useState()
@@ -65,6 +74,23 @@ const Users = () => {
         lg: "1fr",
       }}
       gap={{ base: "20px", xl: "20px" }}>
+      <Menu closeOnSelect={false}>
+      <MenuButton as={Button} color='#8F9BBA' w={'32'}>
+        Filter
+      </MenuButton>
+      <MenuList minWidth='240px'>
+        <MenuOptionGroup defaultValue='asc' title='Order' type='radio'>
+          <MenuItemOption value='asc'>Ascending</MenuItemOption>
+          <MenuItemOption value='desc'>Descending</MenuItemOption>
+        </MenuOptionGroup>
+        <MenuDivider />
+        <MenuOptionGroup title='Type' type='checkbox'>
+          <MenuItemOption value='Expert'>Expert</MenuItemOption>
+          <MenuItemOption value='Commuinitymemeber'>Commuinity memeber</MenuItemOption>
+          <MenuItemOption value='Projectholder'>Project holder</MenuItemOption>
+        </MenuOptionGroup>
+      </MenuList>
+    </Menu>
         {users ? (
             users.map(
                 (user, index) => {
