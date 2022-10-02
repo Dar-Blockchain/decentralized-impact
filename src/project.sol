@@ -1,71 +1,68 @@
-// SPDX-License-Identifier: MIT
+// Solidity program
+// to store
+// project Details
 pragma solidity ^0.8.0;
 
-contract test {
-    enum ProjectStatus {
-        On_hold,
-        Published,
-        Accepted,
-        Refused,
-        under_revision,
-        selected
-    }
-    enum ProjectPhase {
-        sourcing,
-        catalyst,
-        incubation
-    }
+// Creating a Smart Contract
+contract projectInfo{
 
-    struct Project {
-        string name;
-        string proposer;
-        uint project_id;
-        ProjectStatus status;
-        ProjectPhase phase;
-        string hashURL;
-    }
+// Structure of project
+struct project{
+	
+	// State variables
+	int projectId;
+	string name;
+	string category;
+	string designation;
+}
 
-    Project project;
+project []proj;
 
-    constructor() public {
-        project.project_id = 1;
-    }
+// Function to add
+// project details
+function addproject(
+	int projectId, string memory name,
+	string memory category,
+	string memory designation
+) public{
+	project memory e
+		=project(projectId,
+				name,
+				category,
+				designation);
+	proj.push(e);
+}
 
-    mapping(uint256 => Project) public Projects;
-
-    uint ProjectInfo;
-
-    function setProject(string memory name, string memory proposer) public {
-        Project storage curProject = Projects[ProjectInfo];
-        curProject.name = name;
-        curProject.proposer = proposer;
-        curProject.status = ProjectStatus.On_hold;
-        curProject.phase = ProjectPhase.sourcing;
-        curProject.project_id += 1;
-    }
-
-    function getProjectId() public view returns (uint result) {
-        result = project.project_id;
-        return project.project_id;
-    }
-
-    function getProjectStatus(uint _ProposalID)
-        public
-        view
-        returns (ProjectStatus)
-    {
-        return Projects[_ProposalID].status;
-    }
-
-    function getProjectphase(uint _ProposalID)
-        public
-        view
-        returns (ProjectPhase)
-    {
-        return Projects[_ProposalID].phase;
-    }
-
-    function increament_number() public returns (uint) {
-        project.project_id = project.project_id + 1;
-    }
+// Function to get
+// details of project
+function getproject(
+	int projectId
+) public view returns(
+	string memory,
+	string memory,
+	string memory){
+	uint i;
+	for(i=0;i<proj.length;i++)
+	{
+		project memory e
+			=proj[i];
+		
+		// Looks for a matching
+		// project id
+		if(e.projectId==projectId)
+		{
+				return(e.name,
+					e.category,
+					e.designation);
+		}
+	}
+	
+	// If provided project
+	// id is not present
+	// it returns Not
+	// Found
+	return("Not Found",
+			"Not Found",
+			"Not Found");
+}
 }
