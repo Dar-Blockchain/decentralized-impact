@@ -19,9 +19,12 @@ import { Calendar } from 'react-calendar'
 const Experts = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [users, setUsers] = useState()
+    const [calenState, setcalenState] = useState("calendar")
     const [currentExpert, setCurrentExpert] = useState({firstName: ''})
     const [error, setError] = useState(false)
     const [modalState, setModalState] = useState('default')
+
+
     useEffect(() => {
       if (!(users)){
         axios.get("http://localhost:3000/api/",
@@ -70,16 +73,29 @@ const Experts = () => {
       ):(
  
     <ModalContent>
+    <ModalHeader>Pick a date</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
-        <Calendar />
+      {
+        calenState === "calendar" ? (<Calendar onChange={(e) => {setcalenState('time')
+        console.log(e)
+      }} />):(
+          <Flex direction='column' justifyContent={'center'}>
+          <Button my='1'>
+          1-2pm
+          </Button>
+          <Button my='1'>
+          2-3pm
+          </Button>
+          
+          </Flex>)
+      }
       </ModalBody>
-
       <ModalFooter>
         <Button mr={3}  variant='ghost' onClick={onClose}>
           Close
         </Button>
-        <Button colorScheme='blue' onClick={onClose} >Submit</Button>
+        {calenState === "time" && (<Button colorScheme='blue' onClick={onClose} >Submit</Button>)}
       </ModalFooter>
     </ModalContent>
       )
@@ -119,7 +135,7 @@ const Experts = () => {
                             />                     
                     )
                     }
-
+                    return
             })
         ):(
             <>
