@@ -12,12 +12,15 @@ contract projectInfo{
     constructor() public{
     owner = msg.sender;
 }
-enum Status {
+enum projectStatus {
     refused,
     accepted,
     catalyst,
     incubation
 }
+projectStatus public Status; 
+
+
 struct project{
 	
 	// State variables
@@ -26,19 +29,16 @@ struct project{
 	string name;
 	string category;
 	string designation;
-	string status;
+	projectStatus status;
 }
 
 mapping (uint => project) Project;
 
 
-
-function changeStatus(string memory status, uint projectId) public {
+function changeStatus(projectStatus status, uint projectId) public {
     require (msg.sender == owner, "only owner");
     Project[projectId].status = status;
 }
-
-
 
 // Function to add
 // project details
@@ -49,13 +49,12 @@ function addproject(
 	string memory designation
 ) public{
 	project memory e;
-    e.status = "refused";
+    e.status = projectStatus.refused;
     e.category = category;
     e.designation = designation;
     e.name = name;
 	Project[projectId] = e;
 }
-
 // Function to get
 // details of project
 function getproject(
