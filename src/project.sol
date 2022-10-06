@@ -1,3 +1,4 @@
+// Solidity program
 // to store
 // project Details
 pragma solidity ^0.8.0;
@@ -8,10 +9,15 @@ contract projectInfo{
 // Structure of project
     address owner;
 
-    constructor() public {
+    constructor() public{
     owner = msg.sender;
 }
-
+enum Status {
+    refused,
+    accepted,
+    catalyst,
+    incubation
+}
 struct project{
 	
 	// State variables
@@ -37,7 +43,8 @@ function changeStatus(string memory status, uint projectId) public {
 // Function to add
 // project details
 function addproject(
-	uint projectId, string memory name,
+	uint projectId, 
+    string memory name,
 	string memory category,
 	string memory designation
 ) public{
