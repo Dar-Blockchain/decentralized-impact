@@ -1,4 +1,3 @@
-// Solidity program
 // to store
 // project Details
 pragma solidity ^0.8.0;
@@ -7,62 +6,62 @@ pragma solidity ^0.8.0;
 contract projectInfo{
 
 // Structure of project
+    address owner;
+
+    constructor() public {
+    owner = msg.sender;
+}
+
 struct project{
 	
 	// State variables
-	int projectId;
+    address payable owner;
+	uint projectId;
 	string name;
 	string category;
 	string designation;
+	string status;
 }
 
-project []proj;
+mapping (uint => project) Project;
+
+
+
+function changeStatus(string memory status, uint projectId) public {
+    require (msg.sender == owner, "only owner");
+    Project[projectId].status = status;
+}
+
+
 
 // Function to add
 // project details
 function addproject(
-	int projectId, string memory name,
+	uint projectId, string memory name,
 	string memory category,
 	string memory designation
 ) public{
-	project memory e
-		=project(projectId,
-				name,
-				category,
-				designation);
-	proj.push(e);
+	project memory e;
+    e.status = "refused";
+    e.category = category;
+    e.designation = designation;
+    e.name = name;
+	Project[projectId] = e;
 }
 
 // Function to get
 // details of project
 function getproject(
-	int projectId
+	uint projectId
 ) public view returns(
-	string memory,
-	string memory,
-	string memory){
-	uint i;
-	for(i=0;i<proj.length;i++)
-	{
-		project memory e
-			=proj[i];
-		
-		// Looks for a matching
-		// project id
-		if(e.projectId==projectId)
-		{
-				return(e.name,
-					e.category,
-					e.designation);
-		}
-	}
+	project memory){
+    return Project[projectId]	;
+	
 	
 	// If provided project
 	// id is not present
 	// it returns Not
 	// Found
-	return("Not Found",
-			"Not Found",
-			"Not Found");
+
 }
 }
