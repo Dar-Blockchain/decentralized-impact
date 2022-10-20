@@ -70,7 +70,6 @@ const Projects = () => {
         const resp = await axios.get('http://localhost:3000/project/getprojects')  
         setProjects(resp.data.project)
         console.log(resp)
-        console.log('hello')
         setLoader(false)
       }
 

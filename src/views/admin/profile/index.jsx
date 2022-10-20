@@ -119,7 +119,7 @@ export default function Overview() {
           avatar={avatar}
           name={JSON.parse(localStorage.getItem('CurrentUserData')).firstName  + " " + JSON.parse(localStorage.getItem('CurrentUserData')).lastName} 
 
-          job='Product Designer'
+          job={JSON.parse(localStorage.getItem('CurrentUserData')).userType}
           posts='17'
           followers='9.7k'
           following='274'

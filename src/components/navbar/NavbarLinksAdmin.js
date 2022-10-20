@@ -13,7 +13,19 @@ import {
   Text,
   useColorModeValue,
   useColorMode,
+  useDisclosure,
+  Input,
+  Textarea
 } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 // Custom Components
 import { ItemContent } from "components/menu/ItemContent";
 import { SearchBar } from "components/navbar/searchBar/SearchBar";
@@ -34,6 +46,7 @@ export default function HeaderLinks(props) {
   // <Button onClick={() => window.location.href = "/create/project"} mx='8px'>Create Project</Button>
 
   const { secondary } = props;
+  const { isOpen, onOpen, onClose } = useDisclosure()
   // Chakra Color Mode
   const navbarIcon = useColorModeValue("gray.400", "white");
   let menuBg = useColorModeValue("white", "navy.800");
@@ -49,6 +62,32 @@ export default function HeaderLinks(props) {
   );
   const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
   return (
+    <>
+    <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>Edit profile</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        <Flex direction={'column'} justifyContent='space-between' >
+          <label my='1.5'>Email address
+            <Input placeholder={JSON.parse(localStorage.getItem("CurrentUserData")).email} />
+            </label>
+        <label my='1.5'>Profile descreption
+          <Textarea placeholder={"Add profile descreption"} />
+          </label>
+        </Flex>
+
+      </ModalBody>
+
+      <ModalFooter>
+        <Button colorScheme='blue' mr={3} onClick={onClose}>
+          save
+        </Button>
+        <Button onClick={onClose} variant='ghost'>Close</Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
     <Flex
       w={{ sm: "100%", md: "auto" }}
       alignItems='center'
@@ -251,7 +290,7 @@ export default function HeaderLinks(props) {
               _focus={{ bg: "none" }}
               borderRadius='8px'
               px='14px'>
-              <Text fontSize='sm'>Profile Settings</Text>
+              <Text onClick={onOpen} fontSize='sm'>Profile Settings</Text>
             </MenuItem>
             <MenuItem
               _hover={{ bg: "none" }}
@@ -276,6 +315,7 @@ export default function HeaderLinks(props) {
         </MenuList>
       </Menu>
     </Flex>
+    </>
   );
 }
 
