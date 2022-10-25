@@ -8,10 +8,13 @@ import RTLLayout from "layouts/rtl";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "theme/theme";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
+import { Provider } from 'react-redux';
+import { store } from 'config/redux/store';
 import card from '.'
 ReactDOM.render(
   <ChakraProvider theme={theme}>
     <React.StrictMode>
+    <Provider store={store}>
       <ThemeEditorProvider>
         <HashRouter>
         { (localStorage.getItem('userToken') && localStorage.getItem('CurrentUserData')) ? (
@@ -28,6 +31,7 @@ ReactDOM.render(
           
         </HashRouter>
       </ThemeEditorProvider>
+      </Provider>
     </React.StrictMode>
   </ChakraProvider>,
   document.getElementById("root")
