@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 require("dotenv").config();
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 //require("dotenv").config();
 
 const port = process.env.PORT || 3000;
@@ -43,6 +45,9 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+// swagger doc
+
 //use parsing middelware
 app.use(bodyParser.json());
 app.use(cookieParser());
