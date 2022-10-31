@@ -47,6 +47,19 @@ app.use((req, res, next) => {
 });
 
 // swagger doc
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      version: "1.0.0",
+      title: "Customer API",
+      description: "Customer API Information",
+      contact: {
+        name: "Amazing Developer"
+      },
+      servers: ["http://localhost:3000"]
+    }
+  }
+}
 
 //use parsing middelware
 app.use(bodyParser.json());
@@ -57,3 +70,6 @@ app.use("/seance", seanceRoutes);
 app.use("/expert", expertRoutes);
 app.use("/project", projectRoute);
 app.use("/admin", adminRoutes);
+
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
