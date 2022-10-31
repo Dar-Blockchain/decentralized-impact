@@ -47,19 +47,7 @@ app.use((req, res, next) => {
 });
 
 // swagger doc
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      version: "1.0.0",
-      title: "Customer API",
-      description: "Customer API Information",
-      contact: {
-        name: "Amazing Developer"
-      },
-      servers: ["http://localhost:3000"]
-    }
-  }
-}
+
 
 //use parsing middelware
 app.use(bodyParser.json());
