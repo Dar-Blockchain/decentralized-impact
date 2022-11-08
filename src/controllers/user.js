@@ -352,4 +352,13 @@ exports.findUserByEmail = (email) => {
     });
 };
 
+exports.getHolderProject = async(req, res) =>{ 
+  console.log(req.params,)
+  const a = await User.findOne({ _id : req.params.id})
+  .then((a) => { res.status(200).json({message: "done" ,value : a.projects})
+  console.log(a.projects)
+
+  })
+}
+
 // 6313aab62754f7fdf6e84bbe

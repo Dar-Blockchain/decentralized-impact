@@ -30,5 +30,6 @@ router.post("/make/communityMember/:id", userController.makeCommunityMember);
 router.post("/forgot-password", forgotPassword);
 router.post("/:id/reset-password/:token", resetPassword);
 router.put("/updateProfile/:id", updateProfile);
+router.get("/HolderProject/:id",userController.getHolderProject);
 
 module.exports = router;
